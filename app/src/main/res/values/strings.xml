@@ -9,4 +9,22 @@
     <string name="create">Create</string>
     <string name="statistics">Statistics</string>
     <string name="button">Button</string>
+    <string name="name_of_habit">Name of Habit</string>
+    <string name="water_workout_etc">Water, Workout, etc.</string>
+    <string name="reset_to_zero_every">Reset to Zero Every</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="never">Never</string>
+    <string name="increment_by">Increment By</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="value_one">1</string>
+    <string name="target">Target</string>
+    <string name="add_reminder">Add Reminder</string>
+    <string name="reminders">Reminders</string>
+    <string name="notes">Notes</string>
+    <string name="space" />
+    <string name="save">Save</string>
 </resources>
