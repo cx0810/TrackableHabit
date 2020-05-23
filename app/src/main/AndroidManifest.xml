@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Reminders" />
         <activity android:name=".Statistics" />
         <activity android:name=".AddHabit" />
         <activity android:name=".UserManual" />

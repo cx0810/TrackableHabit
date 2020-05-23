@@ -22,6 +22,15 @@ public class AddHabit extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
+
+        Button addReminderButton = findViewById(R.id.addReminderButton);
+        addReminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(), Reminders.class);
+                startActivity(startIntent);
+            }
+        });
     }
 
 

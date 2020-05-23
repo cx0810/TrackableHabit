@@ -27,4 +27,11 @@
     <string name="notes">Notes</string>
     <string name="space" />
     <string name="save">Save</string>
+    <string name="frequency">Frequency</string>
+    <string name="date">Date</string>
+    <string name="add_date">Add date</string>
+    <string name="time">Time</string>
+    <string name="add_time">Add time</string>
+    <string name="reminder_note">Reminder Note</string>
+    <string name="add_a_note">Add a note</string>
 </resources>
