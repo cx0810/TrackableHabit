@@ -34,4 +34,7 @@
     <string name="add_time">Add time</string>
     <string name="reminder_note">Reminder Note</string>
     <string name="add_a_note">Add a note</string>
+    <string name="new_habit">New Habit</string>
+    <string name="decrement">-</string>
+    <string name="increment">+</string>
 </resources>
