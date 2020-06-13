@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     private Context mContext;
     private Cursor mCursor;
 
+
     HabitAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
@@ -22,17 +24,18 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
 
     class HabitViewHolder extends RecyclerView.ViewHolder {
 
-        Button habitNameButton;
+        TextView habitNameBtn;
         Button incrementButton;
         Button decrementButton;
 
         HabitViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            habitNameButton = itemView.findViewById(R.id.habitNameButton);
-            incrementButton = itemView.findViewById(R.id.incrementCountButton);
-            decrementButton = itemView.findViewById(R.id.decrementCountButton);
+            habitNameBtn = itemView.findViewById(R.id.habitNameBtn);
+            incrementButton = itemView.findViewById(R.id.incrementCountBtn);
+            decrementButton = itemView.findViewById(R.id.decrementCountBtn);
         }
+
     }
 
     @NonNull
@@ -49,7 +52,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             return;
         }
         String stringHabitName = mCursor.getString(mCursor.getColumnIndex(HabitContract.HabitEntry.COLUMN_NAME));
-        holder.habitNameButton.setText(stringHabitName);
+        long id = mCursor.getLong(mCursor.getColumnIndex(HabitContract.HabitEntry._ID));
+
+        holder.habitNameBtn.setText(stringHabitName);
+        holder.itemView.setTag(id);
     }
 
     @Override
@@ -68,5 +74,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             notifyDataSetChanged();
         }
     }
+
 
 }

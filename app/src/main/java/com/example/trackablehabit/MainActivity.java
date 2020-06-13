@@ -1,6 +1,8 @@
 package com.example.trackablehabit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
     private HabitDBHelper habitDBHelper;
     private HabitAdapter habitAdapter;
 
+    Button addBtn;
+    Button manualBtn;
+    Button statsBtn;
+
+    Button incrementCountBtn;
+    Button decrementCountBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +40,19 @@ public class MainActivity extends AppCompatActivity {
         habitAdapter = new HabitAdapter(this, habitDBHelper.getAllHabits());
         recyclerView.setAdapter(habitAdapter);
 
-        Button addBtn = findViewById(R.id.addBtn);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                removeItem((long) viewHolder.itemView.getTag());
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button manualBtn = findViewById(R.id.manualBtn);
+        manualBtn = findViewById(R.id.manualBtn);
         manualBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button statsBtn = findViewById(R.id.statsBtn);
+        statsBtn = findViewById(R.id.statsBtn);
         statsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,4 +80,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void removeItem(long id) {
+        habitDatabase.delete(HabitContract.HabitEntry.TABLE_NAME,
+                HabitContract.HabitEntry._ID + "=" + id, null);
+        habitAdapter.swapCursor(habitDBHelper.getAllHabits());
+    }
+
 }

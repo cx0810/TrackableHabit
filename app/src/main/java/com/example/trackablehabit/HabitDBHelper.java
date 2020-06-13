@@ -56,4 +56,32 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitContract.HabitEntry.COLUMN_TIMESTAMP + " DESC"
         );
     }
+
+
+//    public void incrementData(String id, String name) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        int count = Integer.parseInt(HabitEntry.COLUMN_COUNT);
+//        contentValues.put(HabitEntry.COLUMN_NAME, name);
+//        contentValues.put(HabitEntry.COLUMN_COUNT, count++);
+//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
+//    }
+//
+//    public void decrementData(String id, String name) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        int count = Integer.parseInt(HabitEntry.COLUMN_COUNT);
+//        contentValues.put(HabitEntry.COLUMN_NAME, name);
+//        contentValues.put(HabitEntry.COLUMN_COUNT, count--);
+//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
+//    }
+
+//    public boolean updateData(String id, String name, String count) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(HabitEntry.COLUMN_NAME, name);
+//        contentValues.put(HabitEntry.COLUMN_COUNT, count);
+//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
+//        return true;
+//    }
 }

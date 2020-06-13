@@ -37,4 +37,6 @@
     <string name="new_habit">New Habit</string>
     <string name="decrement">-</string>
     <string name="increment">+</string>
+    <string name="habit">Habit</string>
+    <string name="_0">0</string>
 </resources>
