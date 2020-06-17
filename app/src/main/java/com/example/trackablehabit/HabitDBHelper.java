@@ -39,9 +39,9 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     void insertData(String name) {
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(HabitContract.HabitEntry.COLUMN_NAME, name);
+        contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, 0);
-        habitDatabase.insert(HabitContract.HabitEntry.TABLE_NAME, null, contentValues);
+        habitDatabase.insert(HabitEntry.TABLE_NAME, null, contentValues);
     }
 
     Cursor getAllHabits() {
@@ -57,31 +57,23 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
+    boolean incrementData(String id, String name, int count) {
+        int newCount = count + 1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(HabitEntry.COLUMN_NAME, name);
+        contentValues.put(HabitEntry.COLUMN_COUNT, newCount);
+        db.update(HabitEntry.TABLE_NAME, contentValues, "_ID=?", new String[]{id});
+        return true;
+    }
 
-//    public void incrementData(String id, String name) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        int count = Integer.parseInt(HabitEntry.COLUMN_COUNT);
-//        contentValues.put(HabitEntry.COLUMN_NAME, name);
-//        contentValues.put(HabitEntry.COLUMN_COUNT, count++);
-//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
-//    }
-//
-//    public void decrementData(String id, String name) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        int count = Integer.parseInt(HabitEntry.COLUMN_COUNT);
-//        contentValues.put(HabitEntry.COLUMN_NAME, name);
-//        contentValues.put(HabitEntry.COLUMN_COUNT, count--);
-//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
-//    }
-
-//    public boolean updateData(String id, String name, String count) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(HabitEntry.COLUMN_NAME, name);
-//        contentValues.put(HabitEntry.COLUMN_COUNT, count);
-//        db.update(HabitEntry.TABLE_NAME, contentValues, "id = ?", new String[]{id});
-//        return true;
-//    }
+    boolean decrementData(String id, String name, int count) {
+        int newCount = count - 1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(HabitEntry.COLUMN_NAME, name);
+        contentValues.put(HabitEntry.COLUMN_COUNT, newCount);
+        db.update(HabitEntry.TABLE_NAME, contentValues, "_ID=?", new String[]{id});
+        return true;
+    }
 }

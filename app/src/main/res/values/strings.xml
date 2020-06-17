@@ -39,4 +39,5 @@
     <string name="increment">+</string>
     <string name="habit">Habit</string>
     <string name="_0">0</string>
+    <string name="edit">Edit</string>
 </resources>
