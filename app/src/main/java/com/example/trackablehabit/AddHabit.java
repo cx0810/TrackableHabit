@@ -1,5 +1,6 @@
 package com.example.trackablehabit;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,17 +20,13 @@ public class AddHabit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle("Add a Habit");
+        }
+
         habitDBHelper = new HabitDBHelper(this);
         habitDatabase = habitDBHelper.getWritableDatabase();
-
-        Button cancelBtn = findViewById(R.id.cancelBtn);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(startIntent);
-            }
-        });
 
         Button addReminderButton = findViewById(R.id.addReminderButton);
         addReminderButton.setOnClickListener(new View.OnClickListener() {

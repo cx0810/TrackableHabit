@@ -10,19 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
 
     private Context mContext;
-    private Cursor mCursor;
+    private ArrayList habit_id, habit_name, habit_count;
     private OnItemClickListener mListener;
+    private SQLiteDatabase habitDatabase;
+    private HabitDBHelper habitDBHelper;
 
-    HabitAdapter(Context context, Cursor cursor) {
+    HabitAdapter(Context context, ArrayList habit_id, ArrayList habit_name, ArrayList habit_count) {
         mContext = context;
-        mCursor = cursor;
+        this.habit_id = habit_id;
+        this.habit_name = habit_name;
+        this.habit_count = habit_count;
     }
 
     public interface OnItemClickListener {
@@ -31,7 +38,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         void onDecrementClick(int count, TextView countView);
     }
 
-    void setOnItemClickListener(OnItemClickListener listener) {
+    private void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
@@ -89,34 +96,68 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HabitViewHolder holder, int position) {
-        if (!mCursor.moveToPosition(position)) {
-            return;
-        }
-        String stringHabitName = mCursor.getString(mCursor.getColumnIndex(HabitContract.HabitEntry.COLUMN_NAME));
-        long id = mCursor.getLong(mCursor.getColumnIndex(HabitContract.HabitEntry._ID));
-        int count = mCursor.getInt(mCursor.getColumnIndex(HabitContract.HabitEntry.COLUMN_COUNT));
+    public void onBindViewHolder(@NonNull HabitViewHolder holder, final int position) {
 
-        holder.habitNameBtn.setText(stringHabitName);
-        holder.itemView.setTag(id);
-        holder.habitCount.setText(String.valueOf(count));
+        holder.habitNameBtn.setText(String.valueOf(habit_name.get(position)));
+        holder.itemView.setTag(String.valueOf(habit_id.get(position)));
+        holder.habitCount.setText(String.valueOf(habit_count.get(position)));
+
+        setOnItemClickListener(new HabitAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick() {
+                Intent startIntent = new Intent(mContext, EditHabit.class);
+                startIntent.putExtra("id", String.valueOf(habit_id.get(position + 1)));
+                startIntent.putExtra("name", String.valueOf(habit_name.get(position + 1)));
+                startIntent.putExtra("count", String.valueOf(habit_count.get(position + 1)));
+                mContext.startActivity(startIntent);
+            }
+
+            @Override
+            public void onIncrementClick(int count, TextView habitCount) {
+                int newCount = count + 1;
+                habitDBHelper = new HabitDBHelper(mContext);
+                habitDatabase = habitDBHelper.getWritableDatabase();
+                String idString = String.valueOf(habit_id.get(position + 1));
+                String nameString = String.valueOf(habit_name.get(position + 1));
+                String countString = String.valueOf(newCount);
+
+                habitDBHelper.updateData(idString, nameString, countString);
+                habitCount.setText(String.valueOf(newCount));
+            }
+
+            @Override
+            public void onDecrementClick(int count, TextView habitCount) {
+                if (count > 0) {
+                    int newCount = count - 1;
+                    habitDBHelper = new HabitDBHelper(mContext);
+                    habitDatabase = habitDBHelper.getWritableDatabase();
+                    String idString = String.valueOf(habit_id.get(position + 1));
+                    String nameString = String.valueOf(habit_name.get(position + 1));
+                    String countString = String.valueOf(newCount);
+
+                    habitDBHelper.updateData(idString, nameString, countString);
+                    habitCount.setText(String.valueOf(newCount));
+                }
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return habit_id.size();
     }
 
-    void swapCursor(Cursor newCursor) {
-        if (mCursor != null) {
-            mCursor.close();
-        }
-
-        mCursor = newCursor;
-
-        if (newCursor != null) {
-            notifyDataSetChanged();
-        }
-    }
+//    void swapCursor(Cursor newCursor) {
+//        if (mCursor != null) {
+//            mCursor.close();
+//        }
+//
+//        mCursor = newCursor;
+//
+//        if (newCursor != null) {
+//            notifyDataSetChanged();
+//        }
+//    }
 
 }

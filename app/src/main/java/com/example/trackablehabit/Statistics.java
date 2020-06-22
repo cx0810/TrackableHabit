@@ -1,5 +1,6 @@
 package com.example.trackablehabit;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,13 +15,9 @@ public class Statistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        Button statsBackBtn = findViewById(R.id.statsBackBtn);
-        statsBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(startIntent);
-            }
-        });
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setTitle("Statistics");
+        }
     }
 }

@@ -8,14 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     Button manualBtn;
     Button statsBtn;
 
+    // arraylists
+    ArrayList<String> habit_id, habit_name, habit_count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,35 +42,17 @@ public class MainActivity extends AppCompatActivity {
         habitDBHelper = new HabitDBHelper(this);
         habitDatabase = habitDBHelper.getReadableDatabase();
 
+        // Initialise arraylists
+        habit_id = new ArrayList<>();
+        habit_name = new ArrayList<>();
+        habit_count = new ArrayList<>();
+
+        storeDataInArrays();
+
         RecyclerView recyclerView = findViewById(R.id.habitRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        habitAdapter = new HabitAdapter(this, habitDBHelper.getAllHabits());
+        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count);
         recyclerView.setAdapter(habitAdapter);
-
-        habitAdapter.setOnItemClickListener(new HabitAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick() {
-                Intent startIntent = new Intent(getApplicationContext(), EditHabit.class);
-                startActivity(startIntent);
-            }
-
-            @Override
-            public void onIncrementClick(int count, TextView habitCount) {
-                int newCount = count + 1;
-                habitCount.setText(String.valueOf(newCount));
-                habitDBHelper.incrementData(HabitContract.HabitEntry._ID, HabitContract.HabitEntry.COLUMN_NAME, newCount);
-            }
-
-            @Override
-            public void onDecrementClick(int count, TextView habitCount) {
-                if (count > 0) {
-                    int newCount = count - 1;
-                    habitCount.setText(String.valueOf(newCount));
-                    habitDBHelper.decrementData(HabitContract.HabitEntry._ID, HabitContract.HabitEntry.COLUMN_NAME, newCount);
-                }
-            }
-        });
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -81,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                habitAdapter.swapCursor(habitDBHelper.getAllHabits());
                 Intent startIntent = new Intent(getApplicationContext(), AddHabit.class);
                 startActivity(startIntent);
             }
@@ -110,7 +98,20 @@ public class MainActivity extends AppCompatActivity {
     private void removeItem(long id) {
         habitDatabase.delete(HabitContract.HabitEntry.TABLE_NAME,
                 HabitContract.HabitEntry._ID + "=" + id, null);
-        habitAdapter.swapCursor(habitDBHelper.getAllHabits());
+//        habitAdapter.swapCursor(habitDBHelper.getAllHabits());
     }
 
+    // added
+    void storeDataInArrays() {
+        Cursor cursor = habitDBHelper.getAllHabits();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                habit_id.add(cursor.getString(0));
+                habit_name.add(cursor.getString(1));
+                habit_count.add(cursor.getString(2));
+            }
+        }
+    }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
 import com.example.trackablehabit.HabitContract.*;
 
 import androidx.annotation.Nullable;
@@ -14,8 +16,11 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "habitlist.db";
     private static final int DATABASE_VERSION = 1;
 
+    private Context context;
+
     HabitDBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -45,7 +50,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     }
 
     Cursor getAllHabits() {
-        SQLiteDatabase habitDatabase = this.getWritableDatabase();
+        SQLiteDatabase habitDatabase = this.getReadableDatabase();
         return habitDatabase.query(
                 HabitContract.HabitEntry.TABLE_NAME,
                 null,
@@ -57,23 +62,17 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
-    boolean incrementData(String id, String name, int count) {
-        int newCount = count + 1;
+    void updateData(String id, String name, String count) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
-        contentValues.put(HabitEntry.COLUMN_COUNT, newCount);
-        db.update(HabitEntry.TABLE_NAME, contentValues, "_ID=?", new String[]{id});
-        return true;
-    }
+        contentValues.put(HabitEntry.COLUMN_COUNT, count);
 
-    boolean decrementData(String id, String name, int count) {
-        int newCount = count - 1;
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(HabitEntry.COLUMN_NAME, name);
-        contentValues.put(HabitEntry.COLUMN_COUNT, newCount);
-        db.update(HabitEntry.TABLE_NAME, contentValues, "_ID=?", new String[]{id});
-        return true;
+        long result = db.update(HabitEntry.TABLE_NAME, contentValues, "_id=?", new String[]{id});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

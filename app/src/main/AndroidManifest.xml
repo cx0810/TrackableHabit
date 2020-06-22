@@ -10,11 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditHabit" />
-        <activity android:name=".Reminders" />
-        <activity android:name=".Statistics" />
-        <activity android:name=".AddHabit" />
-        <activity android:name=".UserManual" />
+        <activity android:name=".EditHabit"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".Reminders"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".Statistics"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AddHabit"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".UserManual"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
