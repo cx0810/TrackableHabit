@@ -147,17 +147,4 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     public int getItemCount() {
         return habit_id.size();
     }
-
-//    void swapCursor(Cursor newCursor) {
-//        if (mCursor != null) {
-//            mCursor.close();
-//        }
-//
-//        mCursor = newCursor;
-//
-//        if (newCursor != null) {
-//            notifyDataSetChanged();
-//        }
-//    }
-
 }

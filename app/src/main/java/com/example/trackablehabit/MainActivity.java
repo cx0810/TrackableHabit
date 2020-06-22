@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                removeItem((long) viewHolder.itemView.getTag());
+                removeItem((String) viewHolder.itemView.getTag());
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -95,13 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void removeItem(long id) {
-        habitDatabase.delete(HabitContract.HabitEntry.TABLE_NAME,
-                HabitContract.HabitEntry._ID + "=" + id, null);
-//        habitAdapter.swapCursor(habitDBHelper.getAllHabits());
-    }
-
-    // added
     void storeDataInArrays() {
         Cursor cursor = habitDBHelper.getAllHabits();
         if (cursor.getCount() == 0) {
@@ -112,6 +105,16 @@ public class MainActivity extends AppCompatActivity {
                 habit_name.add(cursor.getString(1));
                 habit_count.add(cursor.getString(2));
             }
+        }
+    }
+
+    private void removeItem(String id) {
+        long result = habitDatabase.delete(HabitContract.HabitEntry.TABLE_NAME,
+                "_id=?", new String[]{id});
+        if (result == -1) {
+            Toast.makeText(this, "Failed to delete.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Habit deleted.", Toast.LENGTH_SHORT).show();
         }
     }
 }
