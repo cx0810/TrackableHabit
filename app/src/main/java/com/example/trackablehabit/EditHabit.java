@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditHabit extends AppCompatActivity {
-    private SQLiteDatabase habitDatabase;
     private HabitDBHelper habitDBHelper;
     private EditText nameOfHabit;
 
@@ -32,7 +32,6 @@ public class EditHabit extends AppCompatActivity {
         }
 
         habitDBHelper = new HabitDBHelper(this);
-        habitDatabase = habitDBHelper.getWritableDatabase();
 
         Button addReminderButton = findViewById(R.id.addReminderButton);
         addReminderButton.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +55,30 @@ public class EditHabit extends AppCompatActivity {
                 startActivity(startIntent);
             }
 
+        });
+
+        Button plusValueButton = findViewById(R.id.plusValueButton);
+        Button minusValueButton = findViewById(R.id.minusValueButton);
+        final TextView incrementValueView = findViewById(R.id.incrementValueView);
+
+        plusValueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = Integer.parseInt(incrementValueView.getText().toString());
+                int newCount = count + 1;
+                incrementValueView.setText(String.valueOf(newCount));
+            }
+        });
+
+        minusValueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = Integer.parseInt(incrementValueView.getText().toString());
+                if (count > 1) {
+                    int newCount = count - 1;
+                    incrementValueView.setText(String.valueOf(newCount));
+                }
+            }
         });
     }
 

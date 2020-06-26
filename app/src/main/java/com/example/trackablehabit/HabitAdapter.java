@@ -22,7 +22,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     private Context mContext;
     private ArrayList habit_id, habit_name, habit_count;
     private OnItemClickListener mListener;
-    private SQLiteDatabase habitDatabase;
     private HabitDBHelper habitDBHelper;
 
     HabitAdapter(Context context, ArrayList habit_id, ArrayList habit_name, ArrayList habit_count) {
@@ -116,7 +115,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             public void onIncrementClick(int count, TextView habitCount) {
                 int newCount = count + 1;
                 habitDBHelper = new HabitDBHelper(mContext);
-                habitDatabase = habitDBHelper.getWritableDatabase();
                 String idString = String.valueOf(habit_id.get(position + 1));
                 String nameString = String.valueOf(habit_name.get(position + 1));
                 String countString = String.valueOf(newCount);
@@ -130,7 +128,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 if (count > 0) {
                     int newCount = count - 1;
                     habitDBHelper = new HabitDBHelper(mContext);
-                    habitDatabase = habitDBHelper.getWritableDatabase();
                     String idString = String.valueOf(habit_id.get(position + 1));
                     String nameString = String.valueOf(habit_name.get(position + 1));
                     String countString = String.valueOf(newCount);

@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
-
     }
 
     void storeDataInArrays() {
