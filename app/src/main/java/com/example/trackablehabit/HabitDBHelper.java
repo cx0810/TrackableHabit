@@ -11,6 +11,8 @@ import com.example.trackablehabit.HabitContract.*;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
@@ -60,6 +62,42 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 null,
                 HabitContract.HabitEntry.COLUMN_TIMESTAMP + " DESC"
         );
+    }
+
+    ArrayList<String> queryXData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> xData = new ArrayList<>();
+
+        String query  = "SELECT " + HabitEntry.COLUMN_TIMESTAMP
+                + " FROM " + HabitEntry.TABLE_NAME + " GROUP BY " + HabitEntry.COLUMN_TIMESTAMP;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            xData.add(cursor.getString(0)); // change to different index?
+        }
+        cursor.close();
+
+        return xData;
+    }
+
+    ArrayList<String> queryYData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> yData = new ArrayList<>();
+
+        String query  = "SELECT " + HabitEntry.COLUMN_COUNT + " FROM "
+                + HabitEntry.TABLE_NAME // + " WHERE " + HabitEntry.COLUMN_COUNT + " IS NOT NULL "
+                + " GROUP BY " + HabitEntry.COLUMN_TIMESTAMP;
+        // is it really the sum???
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            yData.add(cursor.getString(0)); // change to different index?
+        }
+        cursor.close();
+
+        return yData;
     }
 
     void updateData(String id, String name, String count) {
