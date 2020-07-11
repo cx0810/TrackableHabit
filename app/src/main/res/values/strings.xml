@@ -41,4 +41,13 @@
     <string name="_0">0</string>
     <string name="edit">Edit</string>
     <string name="add_habit">Add Habit</string>
+
+    <string name="details">Details</string>
+    <string name="repeat">Repeat</string>
+    <string name="repeat_off">Off</string>
+    <string name="repeat_no">Repetition Interval </string>
+    <string name="repeat_type">Type of Repetitions</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="todo">TODO</string>
 </resources>

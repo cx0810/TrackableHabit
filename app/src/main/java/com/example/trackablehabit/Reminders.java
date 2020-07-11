@@ -20,4 +20,19 @@ public class Reminders extends AppCompatActivity {
             ab.setTitle("Reminders");
         }
     }
+
+    public void setRepeatNo(View view) {
+    }
+
+    public void onSwitchRepeat(View view) {
+    }
+
+    public void setTime(View view) {
+    }
+
+    public void setDate(View view) {
+    }
+
+    public void selectRepeatType(View view) {
+    }
 }
