@@ -1,5 +1,6 @@
 package com.example.trackablehabit;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,10 +12,13 @@ import com.example.trackablehabit.HabitContract.*;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     private Context context;
 
@@ -32,12 +36,23 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitEntry.COLUMN_COUNT + " INTEGER, " +
                 HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
+
+        final String SQL_CREATE_STATSLIST_TABLE = "CREATE TABLE " +
+                StatsEntry.TABLE_NAME + " (" +
+                StatsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                StatsEntry.COLUMN_DATE + " TEXT NOT NULL, " +
+                StatsEntry.COLUMN_HABIT_ID + " INTEGER NOT NULL, " +
+                StatsEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, " +
+                StatsEntry.COLUMN_COUNT + " INTEGER" + ");";
+
         db.execSQL(SQL_CREATE_HABITLIST_TABLE);
+        db.execSQL(SQL_CREATE_STATSLIST_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HabitEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + StatsEntry.TABLE_NAME);
         onCreate(db);
     }
 
@@ -47,6 +62,16 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, 0);
         habitDatabase.insert(HabitEntry.TABLE_NAME, null, contentValues);
+    }
+
+    void insertStats(String date, int habitID, String habitName, int count) {
+        SQLiteDatabase habitDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(StatsEntry.COLUMN_DATE, date);
+        contentValues.put(StatsEntry.COLUMN_HABIT_ID, habitID);
+        contentValues.put(StatsEntry.COLUMN_HABIT_NAME, habitName);
+        contentValues.put(StatsEntry.COLUMN_COUNT, count);
+        habitDatabase.insert(StatsEntry.TABLE_NAME, null, contentValues);
     }
 
     Cursor getAllHabits() {
@@ -62,6 +87,36 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
+    Cursor getAllStats() {
+        SQLiteDatabase habitDatabase = this.getReadableDatabase();
+        return habitDatabase.query(
+                HabitContract.StatsEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                HabitContract.StatsEntry.COLUMN_DATE + " DESC"
+        );
+    }
+
+    String queryLatestID() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + HabitEntry.TABLE_NAME
+                + " WHERE " + HabitEntry._ID + " = "
+                + "(SELECT MAX("+ HabitEntry._ID + ") FROM " + HabitEntry.TABLE_NAME + ")";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        String habitID;
+        habitID = cursor.getString(cursor.getColumnIndex("_id"));
+
+        cursor.close();
+
+        return habitID;
+    }
+
     void updateData(String id, String name, String count) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -69,6 +124,25 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         contentValues.put(HabitEntry.COLUMN_COUNT, count);
 
         long result = db.update(HabitEntry.TABLE_NAME, contentValues, "_id=?", new String[]{id});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void updateStats(String habitID, String habitName, String count) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(StatsEntry.COLUMN_HABIT_ID, habitID);
+        contentValues.put(StatsEntry.COLUMN_HABIT_NAME, habitName);
+        contentValues.put(StatsEntry.COLUMN_COUNT, count);
+
+        long date = System.currentTimeMillis();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+        String dateString = sdf.format(date);
+
+        long result = db.update(StatsEntry.TABLE_NAME, contentValues, "date = ? AND habitID = ?" , new String[]{dateString, habitID});
         if (result == -1) {
             Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
         } else {
