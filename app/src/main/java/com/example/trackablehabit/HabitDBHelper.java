@@ -32,12 +32,25 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitEntry.COLUMN_COUNT + " INTEGER, " +
                 HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
+
+        final String SQL_CREATE_ALARM_TABLE =  "CREATE TABLE " + HabitContract.AlarmReminderEntry.TABLE_NAME + " ("
+                + HabitContract.AlarmReminderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + HabitContract.AlarmReminderEntry.KEY_TITLE + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_DATE + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_TIME + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_REPEAT + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_REPEAT_NO + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_REPEAT_TYPE + " TEXT NOT NULL, "
+                + HabitContract.AlarmReminderEntry.KEY_ACTIVE + " TEXT NOT NULL " + " );";
+
         db.execSQL(SQL_CREATE_HABITLIST_TABLE);
+        db.execSQL(SQL_CREATE_ALARM_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + HabitEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + AlarmReminderEntry.TABLE_NAME);
         onCreate(db);
     }
 
