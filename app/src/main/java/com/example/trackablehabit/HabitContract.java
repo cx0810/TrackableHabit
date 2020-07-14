@@ -22,16 +22,19 @@ class HabitContract{
         static final String COLUMN_TIMESTAMP = "timestamp";
     }
 
-
-
-
-
-
     static final String CONTENT_AUTHORITY = "com.delaroystudios.alarmreminder";
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     static final String PATH_VEHICLE = "reminder-path";
+  
+    static final class StatsEntry implements BaseColumns {
+        static final String TABLE_NAME = "statsList";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_HABIT_ID = "habitID";
+        static final String COLUMN_HABIT_NAME = "name";
+        static final String COLUMN_COUNT = "count";
+    }
 
     // add one more table for reminders
     static final class AlarmReminderEntry implements BaseColumns {

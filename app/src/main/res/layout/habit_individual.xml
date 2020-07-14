@@ -18,26 +18,26 @@
             android:id="@+id/decrementCountBtn"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/decrement"
             android:textSize="30sp" />
 
         <LinearLayout
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:orientation="vertical"
-            style="@style/Widget.AppCompat.Button.Colored">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/habitNameBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
                 android:gravity="center"
                 android:text="@string/habit"
                 android:textAllCaps="true"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -45,10 +45,10 @@
                 android:id="@+id/habitCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_0"
-                android:textColor="#FFFFFF"
                 android:gravity="center"
+                android:text="@string/_0"
                 android:textAllCaps="true"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -56,7 +56,7 @@
             android:id="@+id/incrementCountBtn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/increment"
             android:textSize="24sp" />

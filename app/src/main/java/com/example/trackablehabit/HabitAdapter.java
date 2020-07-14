@@ -1,8 +1,10 @@
 package com.example.trackablehabit;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -15,7 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static java.lang.Integer.parseInt;
 
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
 
@@ -68,7 +74,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int count = Integer.parseInt(habitCount.getText().toString());
+                        int count = parseInt(habitCount.getText().toString());
                         listener.onIncrementClick(count, habitCount);
                     }
                 }
@@ -77,7 +83,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        int count = Integer.parseInt(habitCount.getText().toString());
+                        int count = parseInt(habitCount.getText().toString());
                         listener.onDecrementClick(count, habitCount);
                     }
                 }
@@ -120,6 +126,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 String countString = String.valueOf(newCount);
 
                 habitDBHelper.updateData(idString, nameString, countString);
+                habitDBHelper.updateStats(idString, nameString, countString);
                 habitCount.setText(String.valueOf(newCount));
             }
 
@@ -133,10 +140,34 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                     String countString = String.valueOf(newCount);
 
                     habitDBHelper.updateData(idString, nameString, countString);
+                    habitDBHelper.updateStats(idString, nameString, countString);
                     habitCount.setText(String.valueOf(newCount));
                 }
             }
         });
+
+        // to save data at the end of everyday
+//        Calendar calendar = Calendar.getInstance();
+//        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+//        SharedPreferences settings = mContext.getSharedPreferences("PREFS", 0);
+//        int lastDay = settings.getInt("day", 0);
+//
+//        if (lastDay != currentDay) {
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putInt("day", currentDay);
+//            editor.commit();
+//
+//            // save stats to database at the end of the day
+//            long date = System.currentTimeMillis();
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+//            String dateString = sdf.format(date);
+//            int habitID = parseInt((String) habit_id.get(position + 1));
+//            String habitName = (String) habit_name.get(position + 1);
+//            int count = parseInt((String) habit_count.get(position + 1));
+//            habitDBHelper.insertStats(dateString, habitID, habitName, count);
+//
+//            // add code to reset to 0
+//        }
 
     }
 

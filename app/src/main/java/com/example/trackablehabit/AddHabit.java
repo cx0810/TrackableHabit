@@ -3,6 +3,7 @@ package com.example.trackablehabit;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+
+import static java.lang.Integer.parseInt;
 
 public class AddHabit extends AppCompatActivity {
     private SQLiteDatabase habitDatabase;
@@ -70,6 +76,13 @@ public class AddHabit extends AppCompatActivity {
                 String stringNameOfHabit = nameOfHabit.getText().toString();
 
                 habitDBHelper.insertData(stringNameOfHabit);
+
+                long date = System.currentTimeMillis();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+                String dateString = sdf.format(date);
+                String habitIDString = habitDBHelper.queryLatestID();
+                habitDBHelper.insertStats(dateString, parseInt(habitIDString), stringNameOfHabit, 0);
+
                 nameOfHabit.getText().clear();
 
                 Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
