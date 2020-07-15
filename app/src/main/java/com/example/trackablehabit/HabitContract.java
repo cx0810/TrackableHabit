@@ -14,20 +14,9 @@ class HabitContract{
         static final String TABLE_NAME = "habitList";
         static final String COLUMN_NAME = "name";
         static final String COLUMN_COUNT = "count";
-//        public static final String COLUMN_RESET = "resetEvery";
-//        public static final String COLUMN_INCREMENT = "increment";
-//        public static final String COLUMN_TARGET = "target";
-//        public static final String COLUMN_REMINDERS = "reminders";
-//        public static final String COLUMN_NOTES = "notes";
         static final String COLUMN_TIMESTAMP = "timestamp";
     }
 
-    static final String CONTENT_AUTHORITY = "com.delaroystudios.alarmreminder";
-
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
-    static final String PATH_VEHICLE = "reminder-path";
-  
     static final class StatsEntry implements BaseColumns {
         static final String TABLE_NAME = "statsList";
         static final String COLUMN_DATE = "date";
@@ -36,9 +25,11 @@ class HabitContract{
         static final String COLUMN_COUNT = "count";
     }
 
-    // add one more table for reminders
-    static final class AlarmReminderEntry implements BaseColumns {
+    static final String CONTENT_AUTHORITY = "com.delaroystudios.alarmreminder";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    static final String PATH_VEHICLE = "reminder-path";
 
+    static final class AlarmReminderEntry implements BaseColumns {
 
         static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_VEHICLE);
 
@@ -48,7 +39,7 @@ class HabitContract{
         static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VEHICLE;
 
-        final static String TABLE_NAME = "vehicles";
+        final static String TABLE_NAME = "remindersList";
 
         final static String _ID = BaseColumns._ID;
 

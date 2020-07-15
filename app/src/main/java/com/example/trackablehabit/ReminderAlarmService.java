@@ -63,6 +63,7 @@ public class ReminderAlarmService extends IntentService {
         Notification note = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
                 .setContentTitle(getString(R.string.reminder_title))
                 .setContentText(description)
+                .setSmallIcon(R.drawable.ic_alert)
                 .setContentIntent(operation)
                 .setAutoCancel(true)
                 .build();
