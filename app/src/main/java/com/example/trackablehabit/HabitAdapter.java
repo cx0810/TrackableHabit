@@ -26,11 +26,12 @@ import static java.lang.Integer.parseInt;
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
 
     private Context mContext;
-    private ArrayList habit_id, habit_name, habit_count;
+    private ArrayList<String> habit_name;
+    private ArrayList<Integer> habit_id, habit_count;
     private OnItemClickListener mListener;
     private HabitDBHelper habitDBHelper;
 
-    HabitAdapter(Context context, ArrayList habit_id, ArrayList habit_name, ArrayList habit_count) {
+    HabitAdapter(Context context, ArrayList<Integer> habit_id, ArrayList<String> habit_name, ArrayList<Integer> habit_count) {
         mContext = context;
         this.habit_id = habit_id;
         this.habit_name = habit_name;
@@ -61,31 +62,22 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             incrementCountBtn = itemView.findViewById(R.id.incrementCountBtn);
             decrementCountBtn = itemView.findViewById(R.id.decrementCountBtn);
 
-            habitNameBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        listener.onItemClick();
-                    }
+            habitNameBtn.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick();
                 }
             });
 
-            incrementCountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int count = parseInt(habitCount.getText().toString());
-                        listener.onIncrementClick(count, habitCount);
-                    }
+            incrementCountBtn.setOnClickListener(v -> {
+                if (listener != null) {
+                    int count = parseInt(habitCount.getText().toString());
+                    listener.onIncrementClick(count, habitCount);
                 }
             });
-            decrementCountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int count = parseInt(habitCount.getText().toString());
-                        listener.onDecrementClick(count, habitCount);
-                    }
+            decrementCountBtn.setOnClickListener(v -> {
+                if (listener != null) {
+                    int count = parseInt(habitCount.getText().toString());
+                    listener.onDecrementClick(count, habitCount);
                 }
             });
         }
@@ -147,27 +139,38 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         });
 
         // to save data at the end of everyday
-//        Calendar calendar = Calendar.getInstance();
-//        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-//        SharedPreferences settings = mContext.getSharedPreferences("PREFS", 0);
-//        int lastDay = settings.getInt("day", 0);
-//
-//        if (lastDay != currentDay) {
-//            SharedPreferences.Editor editor = settings.edit();
-//            editor.putInt("day", currentDay);
-//            editor.commit();
-//
-//            // save stats to database at the end of the day
-//            long date = System.currentTimeMillis();
-//            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
-//            String dateString = sdf.format(date);
-//            int habitID = parseInt((String) habit_id.get(position + 1));
-//            String habitName = (String) habit_name.get(position + 1);
-//            int count = parseInt((String) habit_count.get(position + 1));
-//            habitDBHelper.insertStats(dateString, habitID, habitName, count);
-//
-//            // add code to reset to 0
-//        }
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        long currentDay = calendar.getTimeInMillis();
+
+        SharedPreferences settings = mContext.getSharedPreferences("PREFS", 0);
+        long lastDay = settings.getLong("day", 0);
+
+        long diffMillis = currentDay - lastDay;
+
+        if (diffMillis >= (3600000  * 24)) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong("day", currentDay);
+            editor.apply();
+
+            // save stats to database at the end of the day
+            long date = System.currentTimeMillis();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+            String dateString = sdf.format(date);
+            int habitID = habit_id.get(position + 1);
+            String habitName = habit_name.get(position + 1);
+            int count = habit_count.get(position + 1);
+            habitDBHelper = new HabitDBHelper(mContext);
+            habitDBHelper.insertStats(dateString, habitID, habitName, count);
+
+            // add code to reset to 0
+        }
 
     }
 
