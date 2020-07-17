@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Button statsBtn;
 
     // arraylists
-    ArrayList<String> habit_id, habit_name, habit_count;
+    private ArrayList<String> habit_name;
+    private ArrayList<Integer> habit_id, habit_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,30 +68,21 @@ public class MainActivity extends AppCompatActivity {
         }).attachToRecyclerView(recyclerView);
 
         addBtn = findViewById(R.id.addBtn);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), AddHabit.class);
-                startActivity(startIntent);
-            }
+        addBtn.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), AddHabit.class);
+            startActivity(startIntent);
         });
 
         manualBtn = findViewById(R.id.manualBtn);
-        manualBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), UserManual.class);
-                startActivity(startIntent);
-            }
+        manualBtn.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), UserManual.class);
+            startActivity(startIntent);
         });
 
         statsBtn = findViewById(R.id.statsBtn);
-        statsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), Statistics.class);
-                startActivity(startIntent);
-            }
+        statsBtn.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), Statistics.class);
+            startActivity(startIntent);
         });
     }
 
@@ -100,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                habit_id.add(cursor.getString(0));
+                habit_id.add(cursor.getInt(0));
                 habit_name.add(cursor.getString(1));
-                habit_count.add(cursor.getString(2));
+                habit_count.add(cursor.getInt(2));
             }
         }
     }
