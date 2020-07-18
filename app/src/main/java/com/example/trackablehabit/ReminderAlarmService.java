@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Settings;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -37,7 +38,7 @@ public class ReminderAlarmService extends IntentService {
         Uri uri = intent.getData();
 
         //display notification to view the task details
-        Intent action = new Intent(this, Reminders.class);
+        Intent action = new Intent(this, AddReminder.class);
         action.setData(uri);
         PendingIntent operation = TaskStackBuilder.create(this)
                 .addNextIntentWithParentStack(action)
@@ -65,6 +66,8 @@ public class ReminderAlarmService extends IntentService {
                 .setContentText(description)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setContentIntent(operation)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setAutoCancel(true)
                 .build();
 

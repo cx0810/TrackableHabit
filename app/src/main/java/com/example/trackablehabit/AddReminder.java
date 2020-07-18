@@ -39,7 +39,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.util.Calendar;
 
 
-public class Reminders extends AppCompatActivity implements
+public class AddReminder extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener,
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -370,7 +370,7 @@ public class Reminders extends AppCompatActivity implements
             // reponds to a click on the "up" arrow button in the app bar
             case android.R.id.home:
                 if (!mVehicleHasChanged) {
-                    NavUtils.navigateUpFromSameTask(Reminders.this);
+                    NavUtils.navigateUpFromSameTask(AddReminder.this);
                     return true;
                 }
 
@@ -378,7 +378,7 @@ public class Reminders extends AppCompatActivity implements
                 // create click listener to handle the user confirming that changes
                 // should be discarded
                 DialogInterface.OnClickListener discardButtonClickListener =
-                        (dialog, which) -> NavUtils.navigateUpFromSameTask(Reminders.this);
+                        (dialog, which) -> NavUtils.navigateUpFromSameTask(AddReminder.this);
 
                 // show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
@@ -442,7 +442,6 @@ public class Reminders extends AppCompatActivity implements
 
         finish();
     }
-
 
     public void saveReminder() {
         ContentValues values = new ContentValues();

@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Reminders"
+        <activity android:name=".AddReminder"
             android:label="@string/add_reminder"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
