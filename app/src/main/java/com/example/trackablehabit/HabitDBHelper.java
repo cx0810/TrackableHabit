@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     private Context context;
 
@@ -37,18 +37,17 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
 
-        final String SQL_CREATE_ALARM_TABLE =  "CREATE TABLE " + HabitContract.AlarmReminderEntry.TABLE_NAME + " ("
-                + HabitContract.AlarmReminderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + HabitContract.AlarmReminderEntry.KEY_TITLE + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_DATE + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_TIME + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_REPEAT + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_REPEAT_NO + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_REPEAT_TYPE + " TEXT NOT NULL, "
-                + HabitContract.AlarmReminderEntry.KEY_ACTIVE + " TEXT NOT NULL " + " );";
+        final String SQL_CREATE_ALARMLIST_TABLE =  "CREATE TABLE " +
+                HabitContract.AlarmReminderEntry.TABLE_NAME + " (" +
+                HabitContract.AlarmReminderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                HabitContract.AlarmReminderEntry.KEY_TITLE + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_DATE + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_TIME + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_REPEAT + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_REPEAT_NO + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_REPEAT_TYPE + " TEXT NOT NULL, " +
+                HabitContract.AlarmReminderEntry.KEY_ACTIVE + " TEXT NOT NULL " + " );";
 
-        db.execSQL(SQL_CREATE_HABITLIST_TABLE);
-        db.execSQL(SQL_CREATE_ALARM_TABLE);
       
         final String SQL_CREATE_STATSLIST_TABLE = "CREATE TABLE " +
                 StatsEntry.TABLE_NAME + " (" +
@@ -58,6 +57,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 StatsEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, " +
                 StatsEntry.COLUMN_COUNT + " INTEGER" + ");";
 
+        db.execSQL(SQL_CREATE_ALARMLIST_TABLE);
         db.execSQL(SQL_CREATE_HABITLIST_TABLE);
         db.execSQL(SQL_CREATE_STATSLIST_TABLE);
       

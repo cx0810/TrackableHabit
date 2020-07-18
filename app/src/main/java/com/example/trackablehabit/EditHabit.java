@@ -34,50 +34,37 @@ public class EditHabit extends AppCompatActivity {
         habitDBHelper = new HabitDBHelper(this);
 
         Button addReminderButton = findViewById(R.id.addReminderButton);
-        addReminderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), Reminders.class);
-                startActivity(startIntent);
-            }
+        addReminderButton.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), AddReminder.class);
+            startActivity(startIntent);
         });
 
         Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String stringNameOfHabit = nameOfHabit.getText().toString();
+        saveButton.setOnClickListener(v -> {
+            String stringNameOfHabit = nameOfHabit.getText().toString();
 
-                habitDBHelper.updateData(id, stringNameOfHabit, count);
-                nameOfHabit.getText().clear();
+            habitDBHelper.updateData(id, stringNameOfHabit, count);
+            nameOfHabit.getText().clear();
 
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(startIntent);
-            }
-
+            Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(startIntent);
         });
 
         Button plusValueButton = findViewById(R.id.plusValueButton);
         Button minusValueButton = findViewById(R.id.minusValueButton);
         final TextView incrementValueView = findViewById(R.id.incrementValueView);
 
-        plusValueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = Integer.parseInt(incrementValueView.getText().toString());
-                int newCount = count + 1;
-                incrementValueView.setText(String.valueOf(newCount));
-            }
+        plusValueButton.setOnClickListener(v -> {
+            int count = Integer.parseInt(incrementValueView.getText().toString());
+            int newCount = count + 1;
+            incrementValueView.setText(String.valueOf(newCount));
         });
 
-        minusValueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = Integer.parseInt(incrementValueView.getText().toString());
-                if (count > 1) {
-                    int newCount = count - 1;
-                    incrementValueView.setText(String.valueOf(newCount));
-                }
+        minusValueButton.setOnClickListener(v -> {
+            int count = Integer.parseInt(incrementValueView.getText().toString());
+            if (count > 1) {
+                int newCount = count - 1;
+                incrementValueView.setText(String.valueOf(newCount));
             }
         });
     }

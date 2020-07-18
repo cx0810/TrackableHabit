@@ -39,55 +39,43 @@ public class AddHabit extends AppCompatActivity {
         Button minusValueButton = findViewById(R.id.minusValueButton);
         final TextView incrementValueView = findViewById(R.id.incrementValueView);
 
-        plusValueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = Integer.parseInt(incrementValueView.getText().toString());
-                int newCount = count + 1;
+        plusValueButton.setOnClickListener(v -> {
+            int count = Integer.parseInt(incrementValueView.getText().toString());
+            int newCount = count + 1;
+            incrementValueView.setText(String.valueOf(newCount));
+        });
+
+        minusValueButton.setOnClickListener(v -> {
+            int count = Integer.parseInt(incrementValueView.getText().toString());
+            if (count > 1) {
+                int newCount = count - 1;
                 incrementValueView.setText(String.valueOf(newCount));
             }
         });
 
-        minusValueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = Integer.parseInt(incrementValueView.getText().toString());
-                if (count > 1) {
-                    int newCount = count - 1;
-                    incrementValueView.setText(String.valueOf(newCount));
-                }
-            }
-        });
-
         Button addReminderButton = findViewById(R.id.addReminderButton);
-        addReminderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), Reminders.class);
-                startActivity(startIntent);
-            }
+        addReminderButton.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), AddReminder.class);
+            startActivity(startIntent);
         });
 
         Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameOfHabit = findViewById(R.id.nameInputView);
-                String stringNameOfHabit = nameOfHabit.getText().toString();
+        saveButton.setOnClickListener(v -> {
+            nameOfHabit = findViewById(R.id.nameInputView);
+            String stringNameOfHabit = nameOfHabit.getText().toString();
 
-                habitDBHelper.insertData(stringNameOfHabit);
+            habitDBHelper.insertData(stringNameOfHabit);
 
-                long date = System.currentTimeMillis();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
-                String dateString = sdf.format(date);
-                String habitIDString = habitDBHelper.queryLatestID();
-                habitDBHelper.insertStats(dateString, parseInt(habitIDString), stringNameOfHabit, 0);
+            long date = System.currentTimeMillis();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+            String dateString = sdf.format(date);
+            String habitIDString = habitDBHelper.queryLatestID();
+            habitDBHelper.insertStats(dateString, parseInt(habitIDString), stringNameOfHabit, 0);
 
-                nameOfHabit.getText().clear();
+            nameOfHabit.getText().clear();
 
-                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(startIntent);
-            }
+            Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(startIntent);
         });
     }
 }
