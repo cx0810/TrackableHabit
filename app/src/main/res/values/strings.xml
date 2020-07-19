@@ -74,4 +74,19 @@
     <string name="default_notification_channel_id">default</string>
     <string name="every">\"Every \"</string>
     <string name="bracket_seconds">(s)</string>
+    <string name="rewards">Rewards</string>
+    <string name="streak">Streak:</string>
+    <string name="star1">star1</string>
+    <string name="_1_day">1 Day</string>
+    <string name="_3_days">3 Days</string>
+    <string name="_1_week">1 Week</string>
+    <string name="_2_weeks">2 Weeks</string>
+    <string name="_1_month">1 Month</string>
+    <string name="star2">star2</string>
+    <string name="star3">star3</string>
+    <string name="star4">star4</string>
+    <string name="star5">star5</string>
+    <string name="habitsCaps">HABITS</string>
+    <string name="rewardsDescription">Collect rewards for your achievements.</string>
+    <string name="statsDescription">View your progress on all your habits.</string>
 </resources>

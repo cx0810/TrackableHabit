@@ -21,17 +21,20 @@ import java.util.ArrayList;
 
 public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHolder> {
     private Context mContext;
-    private ArrayList<Integer> habit_id, habit_count;
-    private ArrayList<String> date_array, habit_name;
+    private ArrayList<Integer> habit_id, habit_count, list_habit_id;
+    private ArrayList<String> date_array, habit_name, list_habit_name;
     private HabitDBHelper habitDBHelper;
 
     StatsAdapter(Context context, ArrayList<String> date_array, ArrayList<Integer> habit_id,
-                 ArrayList<String> habit_name, ArrayList<Integer> habit_count) {
+                 ArrayList<String> habit_name, ArrayList<Integer> habit_count,
+                 ArrayList<Integer> list_habit_id, ArrayList<String> list_habit_name) {
         mContext = context;
         this.date_array = date_array;
         this.habit_id = habit_id;
         this.habit_name = habit_name;
         this.habit_count = habit_count;
+        this.list_habit_id = list_habit_id;
+        this.list_habit_name = list_habit_name;
     }
 
     class StatsViewHolder extends RecyclerView.ViewHolder {
@@ -53,15 +56,17 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull StatsViewHolder holder, int position) {
-        int habitID = habit_id.get(position);
-        String habitName = habit_name.get(position);
+//        int habitID = habit_id.get(position);
+        int habitID = list_habit_id.get(position);
+//        String habitName = habit_name.get(position);
+        String habitName = list_habit_name.get(position);
         addDataToGraph(holder.barChart, habitID, habitName);
         holder.barChart.invalidate();
     }
 
     @Override
     public int getItemCount() {
-        return habit_id.size();
+        return list_habit_id.size();
     }
 
     private void addDataToGraph(BarChart habit_chart, int habitID, String habitName) {

@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
@@ -19,7 +21,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button addBtn;
     Button manualBtn;
     Button statsBtn;
+    Button rewardsBtn;
 
     // arraylists
     private ArrayList<String> habit_name;
@@ -84,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
             Intent startIntent = new Intent(getApplicationContext(), Statistics.class);
             startActivity(startIntent);
         });
+
+        rewardsBtn = findViewById(R.id.rewardsBtn);
+        rewardsBtn.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), Rewards.class);
+            startActivity(startIntent);
+        });
+
+        saveDailyStats();
     }
 
     void storeDataInArrays() {
@@ -106,6 +119,43 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to delete.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Habit deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void saveDailyStats() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        long currentDay = calendar.getTimeInMillis();
+
+        SharedPreferences settings = MainActivity.this.getSharedPreferences("PREFS", 0);
+        long lastDay = settings.getLong("day", 0);
+
+        long diffMillis = currentDay - lastDay;
+
+        if (diffMillis >= (3600000  * 24)) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong("day", currentDay);
+            editor.apply();
+
+            // save stats to database at the end of the day
+            long date = System.currentTimeMillis();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+            String dateString = sdf.format(date);
+
+            habitDBHelper = new HabitDBHelper(MainActivity.this);
+//            Toast.makeText(MainActivity.this, "habit_id size = " + habit_id.size(), Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < habit_id.size(); i++) {
+                int habitID = habit_id.get(i);
+                String habitName = habit_name.get(i);
+                int count = habit_count.get(i);
+                habitDBHelper.insertStats(dateString, habitID, habitName, count);
+            }
+
+            // add code to reset to 0
         }
     }
 }

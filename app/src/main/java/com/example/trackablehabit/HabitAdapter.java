@@ -141,36 +141,39 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         // to save data at the end of everyday
 
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear(Calendar.HOUR);
-        calendar.clear(Calendar.HOUR_OF_DAY);
-        calendar.clear(Calendar.MINUTE);
-        calendar.clear(Calendar.SECOND);
-        calendar.clear(Calendar.MILLISECOND);
-        long currentDay = calendar.getTimeInMillis();
-
-        SharedPreferences settings = mContext.getSharedPreferences("PREFS", 0);
-        long lastDay = settings.getLong("day", 0);
-
-        long diffMillis = currentDay - lastDay;
-
-        if (diffMillis >= (3600000  * 24)) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putLong("day", currentDay);
-            editor.apply();
-
-            // save stats to database at the end of the day
-            long date = System.currentTimeMillis();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
-            String dateString = sdf.format(date);
-            int habitID = habit_id.get(position + 1);
-            String habitName = habit_name.get(position + 1);
-            int count = habit_count.get(position + 1);
-            habitDBHelper = new HabitDBHelper(mContext);
-            habitDBHelper.insertStats(dateString, habitID, habitName, count);
-
-            // add code to reset to 0
-        }
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.clear(Calendar.HOUR);
+//        calendar.clear(Calendar.HOUR_OF_DAY);
+//        calendar.clear(Calendar.MINUTE);
+//        calendar.clear(Calendar.SECOND);
+//        calendar.clear(Calendar.MILLISECOND);
+//        long currentDay = calendar.getTimeInMillis();
+//
+//        SharedPreferences settings = mContext.getSharedPreferences("PREFS", 0);
+//        long lastDay = settings.getLong("day", 0);
+//
+//        long diffMillis = currentDay - lastDay;
+//
+//        if (diffMillis >= (3600000  * 24)) {
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putLong("day", currentDay);
+//            editor.apply();
+//
+//            // save stats to database at the end of the day
+//            long date = System.currentTimeMillis();
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+//            String dateString = sdf.format(date);
+//
+//            habitDBHelper = new HabitDBHelper(mContext);
+//            for (int i = habit_id.size() - 1; i > 0; i++) {
+//                int habitID = habit_id.get(i);
+//                String habitName = habit_name.get(i);
+//                int count = habit_count.get(i);
+//                habitDBHelper.insertStats(dateString, habitID, habitName, count);
+//            }
+//
+//            // add code to reset to 0
+//        }
 
     }
 
