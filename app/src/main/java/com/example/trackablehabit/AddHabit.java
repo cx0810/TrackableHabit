@@ -20,7 +20,7 @@ import static java.lang.Integer.parseInt;
 public class AddHabit extends AppCompatActivity {
     private SQLiteDatabase habitDatabase;
     private HabitDBHelper habitDBHelper;
-    private EditText nameOfHabit;
+    private EditText nameOfHabit, target;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +62,11 @@ public class AddHabit extends AppCompatActivity {
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             nameOfHabit = findViewById(R.id.nameInputView);
+            target = findViewById(R.id.targetValueView);
             String stringNameOfHabit = nameOfHabit.getText().toString();
+            String stringTarget = target.getText().toString();
 
-            habitDBHelper.insertData(stringNameOfHabit);
+            habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget));
 
             long date = System.currentTimeMillis();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");

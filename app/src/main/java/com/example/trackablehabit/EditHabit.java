@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 public class EditHabit extends AppCompatActivity {
     private HabitDBHelper habitDBHelper;
-    private EditText nameOfHabit;
+    private EditText nameOfHabit, targetView;
 
-    String id, name, count;
+    String id, name, count, target;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class EditHabit extends AppCompatActivity {
         setContentView(R.layout.activity_edit_habit);
 
         nameOfHabit = findViewById(R.id.nameInputView);
+        targetView = findViewById(R.id.targetValueView);
         getAndSetIntentData();
 
         ActionBar ab = getSupportActionBar();
@@ -42,8 +43,9 @@ public class EditHabit extends AppCompatActivity {
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             String stringNameOfHabit = nameOfHabit.getText().toString();
+            String stringTarget = targetView.getText().toString();
 
-            habitDBHelper.updateData(id, stringNameOfHabit, count);
+            habitDBHelper.updateData(id, stringNameOfHabit, count, stringTarget);
             nameOfHabit.getText().clear();
 
             Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -76,9 +78,11 @@ public class EditHabit extends AppCompatActivity {
             id = getIntent().getStringExtra("id");
             name = getIntent().getStringExtra("name");
             count = getIntent().getStringExtra("count");
+            target = getIntent().getStringExtra("target");
 
             // Setting Intent data
             nameOfHabit.setText(name);
+            targetView.setText(target);
         } else {
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }

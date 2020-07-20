@@ -89,4 +89,5 @@
     <string name="habitsCaps">HABITS</string>
     <string name="rewardsDescription">Collect rewards for your achievements.</string>
     <string name="statsDescription">View your progress on all your habits.</string>
+    <string name="slash">/</string>
 </resources>

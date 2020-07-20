@@ -27,15 +27,17 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
 
     private Context mContext;
     private ArrayList<String> habit_name;
-    private ArrayList<Integer> habit_id, habit_count;
+    private ArrayList<Integer> habit_id, habit_count, habit_target;
     private OnItemClickListener mListener;
     private HabitDBHelper habitDBHelper;
 
-    HabitAdapter(Context context, ArrayList<Integer> habit_id, ArrayList<String> habit_name, ArrayList<Integer> habit_count) {
+    HabitAdapter(Context context, ArrayList<Integer> habit_id, ArrayList<String> habit_name,
+                 ArrayList<Integer> habit_count, ArrayList<Integer> habit_target) {
         mContext = context;
         this.habit_id = habit_id;
         this.habit_name = habit_name;
         this.habit_count = habit_count;
+        this.habit_target = habit_target;
     }
 
     public interface OnItemClickListener {
@@ -50,7 +52,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
 
     class HabitViewHolder extends RecyclerView.ViewHolder {
         TextView habitNameBtn;
-        TextView habitCount;
+        TextView habitCount, habitTarget;
         Button incrementCountBtn;
         Button decrementCountBtn;
 
@@ -59,6 +61,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
 
             habitNameBtn = itemView.findViewById(R.id.habitNameBtn);
             habitCount = itemView.findViewById(R.id.habitCount);
+            habitTarget = itemView.findViewById(R.id.habitTarget);
             incrementCountBtn = itemView.findViewById(R.id.incrementCountBtn);
             decrementCountBtn = itemView.findViewById(R.id.decrementCountBtn);
 
@@ -98,6 +101,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         holder.habitNameBtn.setText(String.valueOf(habit_name.get(position)));
         holder.itemView.setTag(String.valueOf(habit_id.get(position)));
         holder.habitCount.setText(String.valueOf(habit_count.get(position)));
+        holder.habitTarget.setText(String.valueOf(habit_target.get(position)));
 
         setOnItemClickListener(new HabitAdapter.OnItemClickListener() {
             @Override
@@ -106,6 +110,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 startIntent.putExtra("id", String.valueOf(habit_id.get(position + 1)));
                 startIntent.putExtra("name", String.valueOf(habit_name.get(position + 1)));
                 startIntent.putExtra("count", String.valueOf(habit_count.get(position + 1)));
+                startIntent.putExtra("target", String.valueOf(habit_target.get(position + 1)));
                 mContext.startActivity(startIntent);
             }
 
@@ -116,8 +121,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 String idString = String.valueOf(habit_id.get(position + 1));
                 String nameString = String.valueOf(habit_name.get(position + 1));
                 String countString = String.valueOf(newCount);
+                String targetString = String.valueOf(habit_target.get(position + 1));
 
-                habitDBHelper.updateData(idString, nameString, countString);
+                habitDBHelper.updateData(idString, nameString, countString, targetString);
                 habitDBHelper.updateStats(idString, nameString, countString);
                 habitCount.setText(String.valueOf(newCount));
             }
@@ -130,8 +136,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                     String idString = String.valueOf(habit_id.get(position + 1));
                     String nameString = String.valueOf(habit_name.get(position + 1));
                     String countString = String.valueOf(newCount);
+                    String targetString = String.valueOf(habit_target.get(position + 1));
 
-                    habitDBHelper.updateData(idString, nameString, countString);
+                    habitDBHelper.updateData(idString, nameString, countString, targetString);
                     habitDBHelper.updateStats(idString, nameString, countString);
                     habitCount.setText(String.valueOf(newCount));
                 }

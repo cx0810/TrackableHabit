@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // arraylists
     private ArrayList<String> habit_name;
-    private ArrayList<Integer> habit_id, habit_count;
+    private ArrayList<Integer> habit_id, habit_count, habit_target;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +52,12 @@ public class MainActivity extends AppCompatActivity {
         habit_id = new ArrayList<>();
         habit_name = new ArrayList<>();
         habit_count = new ArrayList<>();
+        habit_target = new ArrayList<>();
 
         storeDataInArrays();
 
         RecyclerView recyclerView = findViewById(R.id.habitRecyclerView);
-        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count);
+        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count, habit_target);
         recyclerView.setAdapter(habitAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 habit_id.add(cursor.getInt(0));
                 habit_name.add(cursor.getString(1));
                 habit_count.add(cursor.getInt(2));
+                habit_target.add(cursor.getInt(3));
             }
         }
     }
