@@ -53,7 +53,7 @@ public class Rewards extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 habit_id.add(cursor.getInt(0));
                 habit_name.add(cursor.getString(1));
-                habit_streak.add(cursor.getInt(2)); // need to change
+                habit_streak.add(cursor.getInt(4));
             }
         }
     }

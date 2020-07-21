@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // arraylists
     private ArrayList<String> habit_name;
-    private ArrayList<Integer> habit_id, habit_count, habit_target;
+    private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         habit_name = new ArrayList<>();
         habit_count = new ArrayList<>();
         habit_target = new ArrayList<>();
+        habit_streak = new ArrayList<>();
 
         storeDataInArrays();
+        saveAndResetDailyStats();
 
         RecyclerView recyclerView = findViewById(R.id.habitRecyclerView);
-        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count, habit_target);
+        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count, habit_target, habit_streak);
         recyclerView.setAdapter(habitAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(startIntent);
         });
 
-        saveDailyStats();
+
     }
 
     void storeDataInArrays() {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 habit_name.add(cursor.getString(1));
                 habit_count.add(cursor.getInt(2));
                 habit_target.add(cursor.getInt(3));
+                habit_streak.add(cursor.getInt(4));
             }
         }
     }
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void saveDailyStats() {
+    void saveAndResetDailyStats() {
         Calendar calendar = Calendar.getInstance();
         calendar.clear(Calendar.HOUR);
         calendar.clear(Calendar.HOUR_OF_DAY);
@@ -149,15 +152,21 @@ public class MainActivity extends AppCompatActivity {
             String dateString = sdf.format(date);
 
             habitDBHelper = new HabitDBHelper(MainActivity.this);
-//            Toast.makeText(MainActivity.this, "habit_id size = " + habit_id.size(), Toast.LENGTH_SHORT).show();
             for (int i = 0; i < habit_id.size(); i++) {
                 int habitID = habit_id.get(i);
                 String habitName = habit_name.get(i);
                 int count = habit_count.get(i);
+                int target = habit_target.get(i);
                 habitDBHelper.insertStats(dateString, habitID, habitName, count);
-            }
 
-            // add code to reset to 0
+                // Reset streak if needed
+                if (count < target) {
+                    habitDBHelper.updateStreak(String.valueOf(habitID), 0);
+                }
+
+                // Reset count to 0
+                habitDBHelper.updateData(String.valueOf(habitID), habitName, String.valueOf(0), String.valueOf(target));
+            }
         }
     }
 }

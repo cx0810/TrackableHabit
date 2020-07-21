@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,10 +39,12 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
     }
 
     class StatsViewHolder extends RecyclerView.ViewHolder {
+        TextView statsHabitName;
         BarChart barChart;
 
         StatsViewHolder(@NonNull View itemView) {
             super(itemView);
+            statsHabitName = itemView.findViewById(R.id.statsHabitName);
             barChart = itemView.findViewById(R.id.statsBarChart);
         }
     }
@@ -62,6 +65,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         String habitName = list_habit_name.get(position);
         addDataToGraph(holder.barChart, habitID, habitName);
         holder.barChart.invalidate();
+        holder.statsHabitName.setText(habitName);
     }
 
     @Override

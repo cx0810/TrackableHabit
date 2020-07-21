@@ -155,6 +155,14 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    void updateStreak(String habitID, int streak) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String instruction = "UPDATE " + HabitEntry.TABLE_NAME
+                + " SET " + HabitEntry.COLUMN_STREAK + " = " + streak
+                + " WHERE " + HabitEntry._ID + " = " + habitID;
+        db.execSQL(instruction);
+    }
+
     void updateStats(String habitID, String habitName, String count) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
