@@ -2,6 +2,7 @@ package com.example.trackablehabit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
 
@@ -29,12 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     public SQLiteDatabase habitDatabase;
     public HabitDBHelper habitDBHelper;
-    private HabitAdapter habitAdapter;
 
     Button addBtn;
-    Button manualBtn;
-    Button statsBtn;
-    Button rewardsBtn;
 
     // arraylists
     private ArrayList<String> habit_name;
@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         habitDBHelper = new HabitDBHelper(this);
         habitDatabase = habitDBHelper.getReadableDatabase();
@@ -56,24 +59,6 @@ public class MainActivity extends AppCompatActivity {
         habit_streak = new ArrayList<>();
 
         storeDataInArrays();
-        saveAndResetDailyStats();
-
-        RecyclerView recyclerView = findViewById(R.id.habitRecyclerView);
-        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count, habit_target, habit_streak);
-        recyclerView.setAdapter(habitAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                removeItem((String) viewHolder.itemView.getTag());
-            }
-        }).attachToRecyclerView(recyclerView);
 
         addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(v -> {
@@ -81,25 +66,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(startIntent);
         });
 
-        manualBtn = findViewById(R.id.manualBtn);
-        manualBtn.setOnClickListener(v -> {
-            Intent startIntent = new Intent(getApplicationContext(), UserManual.class);
-            startActivity(startIntent);
-        });
-
-        statsBtn = findViewById(R.id.statsBtn);
-        statsBtn.setOnClickListener(v -> {
-            Intent startIntent = new Intent(getApplicationContext(), Statistics.class);
-            startActivity(startIntent);
-        });
-
-        rewardsBtn = findViewById(R.id.rewardsBtn);
-        rewardsBtn.setOnClickListener(v -> {
-            Intent startIntent = new Intent(getApplicationContext(), Rewards.class);
-            startActivity(startIntent);
-        });
-
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HabitFragment()).commit();
     }
 
     void storeDataInArrays() {
@@ -117,56 +85,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void removeItem(String id) {
-        long result = habitDatabase.delete(HabitContract.HabitEntry.TABLE_NAME,
-                "_id=?", new String[]{id});
-        if (result == -1) {
-            Toast.makeText(this, "Failed to delete.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Habit deleted.", Toast.LENGTH_SHORT).show();
-        }
-    }
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            item -> {
+                Fragment selectedFragment = new HabitFragment();
 
-    void saveAndResetDailyStats() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear(Calendar.HOUR);
-        calendar.clear(Calendar.HOUR_OF_DAY);
-        calendar.clear(Calendar.MINUTE);
-        calendar.clear(Calendar.SECOND);
-        calendar.clear(Calendar.MILLISECOND);
-        long currentDay = calendar.getTimeInMillis();
-
-        SharedPreferences settings = MainActivity.this.getSharedPreferences("PREFS", 0);
-        long lastDay = settings.getLong("day", 0);
-
-        long diffMillis = currentDay - lastDay;
-
-        if (diffMillis >= (3600000  * 24)) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putLong("day", currentDay);
-            editor.apply();
-
-            // save stats to database at the end of the day
-            long date = System.currentTimeMillis();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
-            String dateString = sdf.format(date);
-
-            habitDBHelper = new HabitDBHelper(MainActivity.this);
-            for (int i = 0; i < habit_id.size(); i++) {
-                int habitID = habit_id.get(i);
-                String habitName = habit_name.get(i);
-                int count = habit_count.get(i);
-                int target = habit_target.get(i);
-                habitDBHelper.insertStats(dateString, habitID, habitName, count);
-
-                // Reset streak if needed
-                if (count < target) {
-                    habitDBHelper.updateStreak(String.valueOf(habitID), 0);
+                switch (item.getItemId()) {
+                    case R.id.nav_home:
+                        selectedFragment = new HabitFragment();
+                        break;
+                    case R.id.nav_statistics:
+                        selectedFragment = new StatisticsFragment();
+                        break;
+                    case R.id.nav_rewards:
+                        selectedFragment = new RewardsFragment();
+                        break;
+                    case R.id.nav_news:
+                        selectedFragment = new NewsFragment();
+                        break;
                 }
 
-                // Reset count to 0
-                habitDBHelper.updateData(String.valueOf(habitID), habitName, String.valueOf(0), String.valueOf(target));
-            }
-        }
-    }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        selectedFragment).commit();
+
+                return true;
+            };
 }

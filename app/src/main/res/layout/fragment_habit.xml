@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Rewards">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/rewardsView"
+        android:id="@+id/habitView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rewards"
+        android:text="@string/habits"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,25 +20,26 @@
         app:layout_constraintVertical_bias="0.049" />
 
     <TextView
-        android:id="@+id/rewardsDescription"
+        android:id="@+id/habitDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rewardsDescription"
-        app:layout_constraintBottom_toTopOf="@+id/rewardsRecyclerView"
+        android:text="@string/habitDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rewardsView"
+        app:layout_constraintTop_toBottomOf="@+id/habitView"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rewardsRecyclerView"
+        android:id="@+id/habitRecyclerView"
         android:layout_width="370dp"
-        android:layout_height="580dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rewardsView"
-        app:layout_constraintVertical_bias="0.767" />
+        app:layout_constraintTop_toBottomOf="@+id/habitDescription"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Statistics">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/statisticsView"
+        android:id="@+id/statisticsView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/statistics"
+        android:textColor="@color/colorPrimary"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,24 +20,26 @@
         app:layout_constraintVertical_bias="0.049" />
 
     <TextView
-        android:id="@+id/statsDescription"
+        android:id="@+id/statsDescription2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/statsDescription"
-        app:layout_constraintBottom_toTopOf="@+id/statsRecyclerView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statisticsView"
+        app:layout_constraintTop_toBottomOf="@+id/statisticsView2"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/statsRecyclerView"
+        android:id="@+id/statsRecyclerView2"
         android:layout_width="370dp"
-        android:layout_height="580dp"
-        android:layout_marginBottom="24dp"
+        android:layout_height="550dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statsDescription2"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
