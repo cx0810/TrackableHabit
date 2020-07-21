@@ -52,6 +52,13 @@ class HabitContract{
         static final String KEY_ACTIVE = "active";
     }
 
+    static final class UserEntry implements BaseColumns {
+        static final String TABLE_NAME ="userList";
+        static final String COLUMN_ID ="ID";
+        static final String COLUMN_USERNAME ="username";
+        static final String COLUMN_PASSWORD ="password";
+    }
+
     static String getColumnString(Cursor cursor, String columnName) {
         return cursor.getString(cursor.getColumnIndex(columnName));
     }

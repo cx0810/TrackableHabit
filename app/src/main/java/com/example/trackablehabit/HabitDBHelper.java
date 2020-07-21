@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 1;
 
     private Context context;
 
@@ -57,9 +57,17 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 StatsEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, " +
                 StatsEntry.COLUMN_COUNT + " INTEGER" + ");";
 
+        final String SQL_CREATE_USERLIST_TABLE ="CREATE TABLE " +
+                UserEntry.TABLE_NAME + " (" +
+                UserEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                UserEntry.COLUMN_USERNAME + " TEXT NOT NULL, " +
+                UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL " + " );";
+
+
         db.execSQL(SQL_CREATE_ALARMLIST_TABLE);
         db.execSQL(SQL_CREATE_HABITLIST_TABLE);
         db.execSQL(SQL_CREATE_STATSLIST_TABLE);
+        db.execSQL(SQL_CREATE_USERLIST_TABLE);
       
     }
 
@@ -68,6 +76,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + HabitEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + AlarmReminderEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + StatsEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME);
         onCreate(db);
     }
 
@@ -77,6 +86,28 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, 0);
         habitDatabase.insert(HabitEntry.TABLE_NAME, null, contentValues);
+    }
+
+    long addUser(String user, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(UserEntry.COLUMN_USERNAME, user);
+        contentValues.put(UserEntry.COLUMN_PASSWORD, password);
+        return db.insert(UserEntry.TABLE_NAME, null, contentValues);
+    }
+
+    boolean checkUser(String username, String password) {
+        String[] columns = { UserEntry.COLUMN_ID };
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = UserEntry.COLUMN_USERNAME + "=?" + " and " + UserEntry.COLUMN_PASSWORD + "=?";
+        String[] selectionArgs = { username, password };
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        return count > 0;
+
     }
 
     void insertStats(String date, int habitID, String habitName, int count) {
