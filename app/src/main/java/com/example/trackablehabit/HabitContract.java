@@ -14,6 +14,8 @@ class HabitContract{
         static final String TABLE_NAME = "habitList";
         static final String COLUMN_NAME = "name";
         static final String COLUMN_COUNT = "count";
+        static final String COLUMN_TARGET = "target";
+        static final String COLUMN_STREAK = "streak";
         static final String COLUMN_TIMESTAMP = "timestamp";
     }
 

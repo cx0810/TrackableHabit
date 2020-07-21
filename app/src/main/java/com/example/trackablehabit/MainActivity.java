@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
@@ -19,7 +21,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
     Button addBtn;
     Button manualBtn;
     Button statsBtn;
+    Button rewardsBtn;
 
     // arraylists
     private ArrayList<String> habit_name;
-    private ArrayList<Integer> habit_id, habit_count;
+    private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
         habit_id = new ArrayList<>();
         habit_name = new ArrayList<>();
         habit_count = new ArrayList<>();
+        habit_target = new ArrayList<>();
+        habit_streak = new ArrayList<>();
 
         storeDataInArrays();
+        saveAndResetDailyStats();
 
         RecyclerView recyclerView = findViewById(R.id.habitRecyclerView);
-        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count);
+        habitAdapter = new HabitAdapter(this, habit_id, habit_name, habit_count, habit_target, habit_streak);
         recyclerView.setAdapter(habitAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -84,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
             Intent startIntent = new Intent(getApplicationContext(), Statistics.class);
             startActivity(startIntent);
         });
+
+        rewardsBtn = findViewById(R.id.rewardsBtn);
+        rewardsBtn.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getApplicationContext(), Rewards.class);
+            startActivity(startIntent);
+        });
+
+
     }
 
     void storeDataInArrays() {
@@ -95,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 habit_id.add(cursor.getInt(0));
                 habit_name.add(cursor.getString(1));
                 habit_count.add(cursor.getInt(2));
+                habit_target.add(cursor.getInt(3));
+                habit_streak.add(cursor.getInt(4));
             }
         }
     }
@@ -106,6 +124,49 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to delete.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Habit deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void saveAndResetDailyStats() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear(Calendar.HOUR);
+        calendar.clear(Calendar.HOUR_OF_DAY);
+        calendar.clear(Calendar.MINUTE);
+        calendar.clear(Calendar.SECOND);
+        calendar.clear(Calendar.MILLISECOND);
+        long currentDay = calendar.getTimeInMillis();
+
+        SharedPreferences settings = MainActivity.this.getSharedPreferences("PREFS", 0);
+        long lastDay = settings.getLong("day", 0);
+
+        long diffMillis = currentDay - lastDay;
+
+        if (diffMillis >= (3600000  * 24)) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putLong("day", currentDay);
+            editor.apply();
+
+            // save stats to database at the end of the day
+            long date = System.currentTimeMillis();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+            String dateString = sdf.format(date);
+
+            habitDBHelper = new HabitDBHelper(MainActivity.this);
+            for (int i = 0; i < habit_id.size(); i++) {
+                int habitID = habit_id.get(i);
+                String habitName = habit_name.get(i);
+                int count = habit_count.get(i);
+                int target = habit_target.get(i);
+                habitDBHelper.insertStats(dateString, habitID, habitName, count);
+
+                // Reset streak if needed
+                if (count < target) {
+                    habitDBHelper.updateStreak(String.valueOf(habitID), 0);
+                }
+
+                // Reset count to 0
+                habitDBHelper.updateData(String.valueOf(habitID), habitName, String.valueOf(0), String.valueOf(target));
+            }
         }
     }
 }

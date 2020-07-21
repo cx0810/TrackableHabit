@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Statistics">
+    tools:context=".Rewards">
 
     <TextView
-        android:id="@+id/statisticsView"
+        android:id="@+id/rewardsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/statistics"
+        android:text="@string/rewards"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,24 +20,25 @@
         app:layout_constraintVertical_bias="0.049" />
 
     <TextView
-        android:id="@+id/statsDescription"
+        android:id="@+id/rewardsDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/statsDescription"
-        app:layout_constraintBottom_toTopOf="@+id/statsRecyclerView"
+        android:text="@string/rewardsDescription"
+        app:layout_constraintBottom_toTopOf="@+id/rewardsRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statisticsView"
+        app:layout_constraintTop_toBottomOf="@+id/rewardsView"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/statsRecyclerView"
+        android:id="@+id/rewardsRecyclerView"
         android:layout_width="370dp"
         android:layout_height="580dp"
-        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rewardsView"
+        app:layout_constraintVertical_bias="0.767" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

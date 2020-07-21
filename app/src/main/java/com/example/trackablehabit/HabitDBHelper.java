@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 7;
 
     private Context context;
 
@@ -34,6 +34,8 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 HabitEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 HabitEntry.COLUMN_COUNT + " INTEGER, " +
+                HabitEntry.COLUMN_TARGET + " INTEGER NOT NULL, " +
+                HabitEntry.COLUMN_STREAK + " INTEGER, " +
                 HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
 
@@ -80,11 +82,13 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void insertData(String name) {
+    void insertData(String name, int target) {
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, 0);
+        contentValues.put(HabitEntry.COLUMN_TARGET, target);
+        contentValues.put(HabitEntry.COLUMN_STREAK, 0);
         habitDatabase.insert(HabitEntry.TABLE_NAME, null, contentValues);
     }
 
@@ -167,11 +171,12 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         return habitID;
     }
 
-    void updateData(String id, String name, String count) {
+    void updateData(String id, String name, String count, String target) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, count);
+        contentValues.put(HabitEntry.COLUMN_TARGET, target);
 
         long result = db.update(HabitEntry.TABLE_NAME, contentValues, "_id=?", new String[]{id});
         if (result == -1) {
@@ -179,6 +184,14 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void updateStreak(String habitID, int streak) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String instruction = "UPDATE " + HabitEntry.TABLE_NAME
+                + " SET " + HabitEntry.COLUMN_STREAK + " = " + streak
+                + " WHERE " + HabitEntry._ID + " = " + habitID;
+        db.execSQL(instruction);
     }
 
     void updateStats(String habitID, String habitName, String count) {
