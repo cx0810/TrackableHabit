@@ -99,4 +99,11 @@
     <string name="register">REGISTER</string>
     <string name="confirm_password">\ Confirm Password</string>
     <string name="already_registered">Already Registered?</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="news">News</string>
+    <string name="newsDescription">Share your progress with your family and friends.</string>
+    <string name="habitDescription">Meet your goals, track anything.</string>
 </resources>
