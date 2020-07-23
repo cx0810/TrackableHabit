@@ -192,6 +192,7 @@
                         android:id="@+id/targetValueView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:textSize="24sp" />
 
                 </LinearLayout>
@@ -246,21 +247,15 @@
                 </LinearLayout>
 
             </RelativeLayout>
-
-            <LinearLayout
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_marginTop="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="100dp">
-                <Button
-                    android:id="@+id/saveButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:text="@string/save"
-                    android:textColor="@color/colorPrimaryDark"/>
-            </LinearLayout>
-
+                android:text="@string/save"
+                android:textColor="@color/colorPrimaryDark"/>
 
         </LinearLayout>
 
