@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/tools"
@@ -7,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="152dp"
+        android:layout_height="180dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,6 +21,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/add_habit"
+                android:textColor="@color/colorPrimary"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="18sp" />
 
@@ -208,6 +210,14 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgView_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/dark_grey"
+            android:contentDescription="@string/todo" />
 
     </LinearLayout>
 

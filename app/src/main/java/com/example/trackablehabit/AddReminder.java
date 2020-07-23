@@ -46,7 +46,6 @@ public class AddReminder extends AppCompatActivity implements
 
     private static final int EXISTING_VEHICLE_LOADER = 0;
 
-    private Toolbar mToolbar;
     private EditText mTitleText;
     private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
     private Calendar mCalendar;
@@ -108,7 +107,6 @@ public class AddReminder extends AppCompatActivity implements
         }
 
         // Initialize Views
-        mToolbar = findViewById(R.id.toolbar);
         mTitleText = findViewById(R.id.reminder_title);
         mDateText = findViewById(R.id.set_date);
         mTimeText = findViewById(R.id.set_time);
@@ -189,7 +187,6 @@ public class AddReminder extends AppCompatActivity implements
             mActive = savedInstanceState.getString(KEY_ACTIVE);
         }
 
-//        getSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Add Reminder");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

@@ -8,28 +8,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/decrementCountBtn"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/decrement"
-            android:textColor="#737373"
-            android:textSize="30sp" />
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp" />
 
         <LinearLayout
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_weight="9"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:orientation="vertical">
 
             <TextView
@@ -39,21 +39,23 @@
                 android:gravity="center"
                 android:text="@string/habit"
                 android:textAllCaps="true"
-                android:textColor="#737373"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/habitCount"
-                    android:layout_width="142dp"
+                    android:layout_width="124dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@string/_0"
                     android:textAllCaps="true"
-                    android:textColor="#737373" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/habitSlash"
@@ -62,7 +64,7 @@
                     android:gravity="center"
                     android:text="@string/slash"
                     android:textAllCaps="true"
-                    android:textColor="#737373" />
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/habitTarget"
@@ -71,7 +73,7 @@
                     android:gravity="start"
                     android:text="@string/_0"
                     android:textAllCaps="true"
-                    android:textColor="#737373" />
+                    android:textColor="@color/colorAccent" />
             </LinearLayout>
 
         </LinearLayout>
@@ -79,11 +81,12 @@
         <Button
             android:id="@+id/incrementCountBtn"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/increment"
-            android:textColor="#737373"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp" />
 
     </LinearLayout>
