@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     public SQLiteDatabase habitDatabase;
     public HabitDBHelper habitDBHelper;
 
-    Button addBtn;
-
     // arraylists
     private ArrayList<String> habit_name;
     private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
@@ -59,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
         habit_streak = new ArrayList<>();
 
         storeDataInArrays();
-
-        addBtn = findViewById(R.id.addBtn);
-        addBtn.setOnClickListener(v -> {
-            Intent startIntent = new Intent(getApplicationContext(), AddHabit.class);
-            startActivity(startIntent);
-        });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HabitFragment()).commit();
