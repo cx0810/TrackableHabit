@@ -5,11 +5,20 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_profile"
-            android:title="@string/profile" />
+            android:title="@string/profile"
+            android:icon="@drawable/ic_username"/>
         <item android:id="@+id/nav_password"
-            android:title="@string/password" />
-        <item android:id="@+id/nav_logout"
-            android:title="@string/logout" />
+            android:title="@string/change_password"
+            android:icon="@drawable/ic_password"/>
     </group>
+
+    <item android:title="@string/space">
+        <menu>
+            <item android:id="@+id/nav_logout"
+                android:title="@string/logout"
+                android:icon="@drawable/ic_exit"/>
+        </menu>
+    </item>
+
 
 </menu>
