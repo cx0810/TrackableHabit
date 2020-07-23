@@ -1,271 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddHabit">
 
-    <TextView
-        android:id="@+id/createView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conlay1"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="34dp">
 
-    <TextView
-        android:id="@+id/nameView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name_of_habit"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.087"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        <TextView
+            android:id="@+id/createView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.049" />
 
-    <EditText
-        android:id="@+id/nameInputView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/water_workout_etc"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameView"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/createDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/createDescription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createView"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/resetView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reset_to_zero_every"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInputView"
-        app:layout_constraintVertical_bias="0.050" />
+    <ScrollView
+        android:id="@+id/createScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/conlay1"
+        android:layout_marginTop="40dp">
 
-    <CheckBox
-        android:id="@+id/dayBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/day"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resetView"
-        app:layout_constraintVertical_bias="0.0" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp">
 
-    <CheckBox
-        android:id="@+id/weekBok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/week"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/dayBox"
-        app:layout_constraintTop_toTopOf="@+id/dayBox"
-        app:layout_constraintVertical_bias="0.0" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setName">
 
-    <CheckBox
-        android:id="@+id/monthBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/month"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/weekBok"
-        app:layout_constraintTop_toTopOf="@+id/weekBok"
-        app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/name_habit_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/ic_user" />
 
-    <CheckBox
-        android:id="@+id/yearBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/year"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/monthBox"
-        app:layout_constraintTop_toTopOf="@+id/monthBox"
-        app:layout_constraintVertical_bias="0.0" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/name_habit_icon"
+                    android:layout_toRightOf="@id/name_habit_icon"
+                    android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/neverBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/never"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toEndOf="@+id/yearBox"
-        app:layout_constraintTop_toTopOf="@+id/yearBox"
-        app:layout_constraintVertical_bias="0.0" />
+                    <TextView
+                        android:id="@+id/nameView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name_of_habit"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/plusValueButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="436dp"
-        android:text="@string/plus"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.33"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/incrementView"
-        app:layout_constraintVertical_bias="0.0" />
+                    <TextView
+                        android:id="@+id/nameInputView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/incrementValueView"
-        android:layout_width="12dp"
-        android:layout_height="24dp"
-        android:text="@string/value_one"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/minusValueButton"
-        app:layout_constraintEnd_toStartOf="@+id/plusValueButton"
-        app:layout_constraintHorizontal_bias="0.593"
-        app:layout_constraintStart_toEndOf="@+id/minusValueButton"
-        app:layout_constraintTop_toBottomOf="@+id/incrementView"
-        app:layout_constraintVertical_bias="0.458" />
+                </LinearLayout>
 
-    <Button
-        android:id="@+id/minusValueButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="436dp"
-        android:text="@string/minus"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.077"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/incrementView"
-        app:layout_constraintVertical_bias="0.0" />
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/targetView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/target"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minusValueButton"
-        app:layout_constraintVertical_bias="0.050" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setResetToZero">
 
-    <EditText
-        android:id="@+id/targetValueView"
-        android:layout_width="18dp"
-        android:layout_height="43dp"
-        android:ems="10"
-        android:hint="@string/value_one"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.071"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/targetView"
-        app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/resetIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/ic_loop" />
 
-    <TextView
-        android:id="@+id/remindersView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reminders"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.078"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/targetValueView"
-        app:layout_constraintVertical_bias="0.112" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/resetIcon"
+                    android:layout_toRightOf="@id/resetIcon"
+                    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/addReminderButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_reminder"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/remindersView"
-        app:layout_constraintVertical_bias="0.0" />
+                    <TextView
+                        android:id="@+id/resetView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reset_to_zero_every"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorPrimaryDark"/>
 
-    <TextView
-        android:id="@+id/incrementView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/increment_by"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dayBox"
-        app:layout_constraintVertical_bias="0.073" />
+                    <TextView
+                        android:id="@+id/setReset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/noteView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/notes"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addReminderButton"
-        app:layout_constraintVertical_bias="0.135" />
+                </LinearLayout>
 
-    <EditText
-        android:id="@+id/notesInputView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/space"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteView"
-        app:layout_constraintVertical_bias="0.0" />
+            </RelativeLayout>
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createView"
-        app:layout_constraintVertical_bias="0.958" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="setTarget">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/targetIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/ic_target" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/targetIcon"
+                    android:layout_toRightOf="@id/targetIcon"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/targetView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/target"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/targetValueView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/reminderIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/ic_alarm" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/reminderIcon"
+                    android:layout_toRightOf="@id/reminderIcon"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/remindersView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reminders"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/addReminderButton"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:text="@string/add_reminder" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="100dp">
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:text="@string/save"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+</RelativeLayout>
+

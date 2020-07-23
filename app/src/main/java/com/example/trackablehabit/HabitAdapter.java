@@ -179,6 +179,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         builder.setPositiveButton("Ok", (dialog, which) -> {
             if ((((streak == 1 || streak == 3) || streak == 7) || streak == 14) || streak == 30) {
                 rewardAlert(habitName, streak);
+
             }
         });
 

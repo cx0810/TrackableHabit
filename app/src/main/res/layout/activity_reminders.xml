@@ -7,20 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".AddReminder">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="16dp"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="?attr/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:id="@+id/add_reminder_layout_top"
         android:background="@color/colorPrimary"
@@ -86,7 +75,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="32dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_date"
+                    app:srcCompat="@drawable/ic_date"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/todo" />
 
@@ -134,7 +123,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="32dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_time"
+                    app:srcCompat="@drawable/ic_time"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/todo" />
 
@@ -178,7 +167,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="32dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_repeat"
+                    app:srcCompat="@drawable/ic_repeat"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/todo" />
 
@@ -245,7 +234,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="32dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_interval"
+                    app:srcCompat="@drawable/ic_interval"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/todo" />
 
@@ -293,7 +282,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="32dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_loop"
+                    app:srcCompat="@drawable/ic_loop"
                     android:layout_alignParentStart="true"
                     android:contentDescription="@string/todo" />
 

@@ -59,6 +59,7 @@ class HabitContract{
         static final String COLUMN_ID ="ID";
         static final String COLUMN_USERNAME ="username";
         static final String COLUMN_PASSWORD ="password";
+        static final String COLUMN_LOGGEDIN = "loggedin";
     }
 
     static String getColumnString(Cursor cursor, String columnName) {

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 1;
 
     private Context context;
 
@@ -63,7 +63,8 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 UserEntry.TABLE_NAME + " (" +
                 UserEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserEntry.COLUMN_USERNAME + " TEXT NOT NULL, " +
-                UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL " + " );";
+                UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL, " +
+                UserEntry.COLUMN_LOGGEDIN + " BOOLEAN NOT NULL" + ");";
 
 
         db.execSQL(SQL_CREATE_ALARMLIST_TABLE);
@@ -97,6 +98,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserEntry.COLUMN_USERNAME, user);
         contentValues.put(UserEntry.COLUMN_PASSWORD, password);
+        contentValues.put(UserEntry.COLUMN_LOGGEDIN, false);
         return db.insert(UserEntry.TABLE_NAME, null, contentValues);
     }
 
@@ -111,7 +113,6 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         db.close();
 
         return count > 0;
-
     }
 
     void insertStats(String date, int habitID, String habitName, int count) {
