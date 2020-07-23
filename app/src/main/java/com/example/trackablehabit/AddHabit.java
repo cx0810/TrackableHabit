@@ -121,7 +121,7 @@ public class AddHabit extends AppCompatActivity {
         alert.setTitle("Enter Target Count");
 
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         alert.setView(input);
         alert.setPositiveButton("Ok",
                 (dialog, whichButton) -> {
