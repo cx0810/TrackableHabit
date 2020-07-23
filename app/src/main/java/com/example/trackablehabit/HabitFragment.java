@@ -1,6 +1,7 @@
 package com.example.trackablehabit;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,11 +33,13 @@ public class HabitFragment extends Fragment {
 
     private ArrayList<String> habit_name;
     private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
+    private FloatingActionButton addHabitFab;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_habit, container, false);
+        addHabitFab = rootView.findViewById(R.id.addHabitFab);
 
         habitDBHelper = new HabitDBHelper(getActivity());
         habitDatabase = habitDBHelper.getReadableDatabase();
@@ -65,6 +70,11 @@ public class HabitFragment extends Fragment {
                 removeItem((String) viewHolder.itemView.getTag());
             }
         }).attachToRecyclerView(recyclerView);
+
+        addHabitFab.setOnClickListener(v -> {
+            Intent startIntent = new Intent(getActivity(), AddHabit.class);
+            startActivity(startIntent);
+        });
 
         return rootView;
     }
