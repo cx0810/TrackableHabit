@@ -247,16 +247,16 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    void updateUserLogOut() {
+    void updateUserLogOut(int userID) {
         SQLiteDatabase db = this.getWritableDatabase();
         String instruction = "UPDATE " + UserEntry.TABLE_NAME
                 + " SET " + UserEntry.COLUMN_LOGGEDIN + " = " + 0
-                + " WHERE " + UserEntry.COLUMN_ID + " = " + queryCurrentUserID();
+                + " WHERE " + UserEntry.COLUMN_ID + " = " + userID;
         db.execSQL(instruction);
 
     }
 
-    private int queryCurrentUserID() {
+    int queryCurrentUserID() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + UserEntry.TABLE_NAME

@@ -150,19 +150,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new UserManualFragment()).commit();
                 break;
             case R.id.nav_logout:
+                int userID = habitDBHelper.queryCurrentUserID();
                 new AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Log Out")
+                        .setTitle("Exit")
                         .setMessage("Are you sure you want to log out?")
                         .setPositiveButton("Yes", (dialog, which) -> {
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
-                            habitDBHelper.updateUserLogOut();
+                            habitDBHelper.updateUserLogOut(userID);
                         })
                         .setNegativeButton("No", null)
                         .show();
                 break;
-
         }
 
         drawer.closeDrawer(GravityCompat.START);
