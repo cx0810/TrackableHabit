@@ -16,11 +16,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText mTextUsername;
-    EditText mTextPassword;
+    EditText mTextUsername, mTextPassword;
     Button mButtonLogin;
     TextView mRegister;
-    HabitDBHelper db;
+    HabitDBHelper habitDBHelper;
 
     int userID;
 
@@ -29,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        db = new HabitDBHelper(this);
+        habitDBHelper = new HabitDBHelper(this);
 
         mTextUsername = findViewById(R.id.login_username);
         mTextPassword = findViewById(R.id.login_password);
@@ -44,12 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         mButtonLogin.setOnClickListener(v -> {
             String user = mTextUsername.getText().toString().trim();
             String password = mTextPassword.getText().toString().trim();
-            int res = db.checkUser(user, password);
+            int res = habitDBHelper.checkUser(user, password);
             if (res > 0) {
                 userID = res;
 
                 // set loggedIn to true/1
-                db.updateUser(String.valueOf(userID), user, password, 1);
+                habitDBHelper.updateUser(String.valueOf(userID), user, password, 1);
 
                 Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
                 Intent homepage = new Intent(LoginActivity.this, MainActivity.class);

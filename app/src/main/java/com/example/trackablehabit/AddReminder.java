@@ -52,6 +52,7 @@ public class AddReminder extends AppCompatActivity implements
     private int mYear, mMonth, mDay, mHour, mMinute;
     private long mRepeatTime;
     private Switch mRepeatSwitch;
+    private Button mSaveButton;
     private String mTitle, mTime, mDate, mRepeat, mRepeatNo, mRepeatType, mActive;
 
     private Uri mCurrentReminderUri;
@@ -114,6 +115,7 @@ public class AddReminder extends AppCompatActivity implements
         mRepeatNoText = findViewById(R.id.set_repeat_no);
         mRepeatTypeText = findViewById(R.id.set_repeat_type);
         mRepeatSwitch = findViewById(R.id.repeat_switch);
+        mSaveButton = findViewById(R.id.reminder_save);
 
         // Initialize default values
         mActive = "true";
@@ -191,7 +193,10 @@ public class AddReminder extends AppCompatActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
+        mSaveButton.setOnClickListener(v -> {
+            saveReminder();
+            finish();
+        });
     }
 
     @Override
@@ -324,120 +329,6 @@ public class AddReminder extends AppCompatActivity implements
             mRepeat = "false";
             mRepeatText.setText(R.string.repeat_off);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_reminder, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        // if this is a new reminder, hide the "delete" menu item
-        if(mCurrentReminderUri == null) {
-            MenuItem menuItem = menu.findItem(R.id.discard_reminder);
-            menuItem.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // user clicks on a menu option in the app bar overflow menu
-        switch (item.getItemId()) {
-
-            // responds to a click on "save" menu option
-            case R.id.save_reminder:
-                if (mTitleText.getText().toString().length() == 0) {
-                    mTitleText.setError("Reminder Title cannot be blank!");
-                } else {
-                    saveReminder();
-                    finish();
-                }
-                return true;
-
-            // responds to a click on "delete" menu option
-            case R.id.discard_reminder:
-                // pop up confirmation dialog
-                showDeleteConfirmationDialog();
-                return true;
-
-            // reponds to a click on the "up" arrow button in the app bar
-            case android.R.id.home:
-                if (!mVehicleHasChanged) {
-                    NavUtils.navigateUpFromSameTask(AddReminder.this);
-                    return true;
-                }
-
-                // if there are unsaved changes, set up dialog to warn user
-                // create click listener to handle the user confirming that changes
-                // should be discarded
-                DialogInterface.OnClickListener discardButtonClickListener =
-                        (dialog, which) -> NavUtils.navigateUpFromSameTask(AddReminder.this);
-
-                // show a dialog that notifies the user they have unsaved changes
-                showUnsavedChangesDialog(discardButtonClickListener);
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
-
-    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
-        // create AlertDialog.Builder and set the msg, and click listeners
-        // for positive and negative buttons on dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.unsaved_changes_dialog_msg);
-        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-        builder.setNegativeButton(R.string.keep_editing, (dialog, which) -> {
-            // user click on "keep editing" button, so dismiss dialog
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void showDeleteConfirmationDialog() {
-        // create AlertDialog.Builder and set the msg, and click listeners
-        // for positive and negative buttons on the dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_dialog_msg);
-        builder.setPositiveButton(R.string.delete, (dialog, which) -> {
-            // user clicked on "delete" button, delete reminder
-            deleteReminder();
-        });
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
-            // user clicked on "cancel" button, dismiss dialog
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void deleteReminder() {
-        if (mCurrentReminderUri != null) {
-            int rowsDeleted = getContentResolver().delete(mCurrentReminderUri, null, null);
-
-            if (rowsDeleted == 0) {
-                Toast.makeText(this, getString(R.string.editor_delete_reminder_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.editor_delete_reminder_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        finish();
     }
 
     public void saveReminder() {

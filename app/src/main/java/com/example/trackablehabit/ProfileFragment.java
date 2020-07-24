@@ -4,15 +4,38 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class ProfileFragment extends Fragment {
+    private TextView profileName, noOfHabitsTracked, noOfRewards, highestStreak;
+    private HabitDBHelper habitDBHelper;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        habitDBHelper = new HabitDBHelper(getActivity());
+
+        profileName = rootView.findViewById(R.id.profile_name);
+        noOfHabitsTracked = rootView.findViewById(R.id.number_of_habits_tracked);
+        noOfRewards = rootView.findViewById(R.id.number_of_rewards);
+        highestStreak = rootView.findViewById(R.id.highest_streak);
+
+//        int highestStreakVal = habitDBHelper.queryHighestStreak();
+//        highestStreak.setText(highestStreakVal);
+
+        profileName.setText(habitDBHelper.getCurrentUsername());
+        String rewardsText = HabitDBHelper.noOfRewards + "" ;
+        noOfRewards.setText(rewardsText);
+        String habitsText = HabitDBHelper.noOfHabitsTracked + "";
+        noOfHabitsTracked.setText(habitsText);
+
+
+        return rootView;
     }
 }

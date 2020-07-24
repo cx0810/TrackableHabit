@@ -1,18 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rellay1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/profile"
-        android:textSize="30sp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="50dp"
-        tools:ignore="MissingConstraints"
-        android:layout_marginStart="50dp" />
+        android:background="@color/colorAccent"
+        android:paddingBottom="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/imgUser"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/todo"
+                app:srcCompat="@drawable/ic_username" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgUser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rellay1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_favorite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_habits_tracked"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/number_of_habits_tracked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/_0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_marginTop="15dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_flower" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_number_of_rewards"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/number_of_rewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/_0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_gravity="center_horizontal"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/highest_streak_maintained"
+                        android:textSize="13sp"
+                        app:srcCompat="@drawable/ic_star"
+                        android:textColor="@color/colorPrimaryDark"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/highest_streak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/_0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

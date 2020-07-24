@@ -2,6 +2,7 @@ package com.example.trackablehabit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -148,9 +150,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new UserManualFragment()).commit();
                 break;
             case R.id.nav_logout:
-                // make log in activity a fragment?
+                int userID = habitDBHelper.queryCurrentUserID();
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to log out?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            habitDBHelper.updateUserLogOut(userID);
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
                 break;
-
         }
 
         drawer.closeDrawer(GravityCompat.START);
