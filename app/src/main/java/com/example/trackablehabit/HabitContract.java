@@ -62,6 +62,16 @@ class HabitContract{
         static final String COLUMN_LOGGEDIN = "loggedin";
     }
 
+    static final class NewsEntry implements BaseColumns {
+        static final String TABLE_NAME = "newsList";
+        static final String COLUMN_USERNAME = "username";
+        static final String COLUMN_REWARD_NAME = "rewardName";
+        static final String COLUMN_HABIT_NAME = "habitName";
+        static final String COLUMN_DATE = "date";
+        static final String COLUMN_LIKES = "likes";
+        static final String COLUMN_COMMENTS = "comments";
+    }
+
     static String getColumnString(Cursor cursor, String columnName) {
         return cursor.getString(cursor.getColumnIndex(columnName));
     }
