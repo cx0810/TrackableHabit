@@ -23,9 +23,9 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/profile"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_username"
-            android:contentDescription="@string/todo" />
+            app:srcCompat="@drawable/ic_username" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -77,15 +77,15 @@
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_like"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/like"
+                app:srcCompat="@drawable/ic_like" />
 
             <TextView
                 android:id="@+id/tv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
                 android:text="@string/_18"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
@@ -136,9 +136,9 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/like"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_like_btn"
-                    android:contentDescription="@string/todo" />
+                    app:srcCompat="@drawable/ic_like" />
 
                 <TextView
                     android:id="@+id/like_btn"
@@ -172,7 +172,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_comment_btn"
-                    android:contentDescription="@string/todo" />
+                    android:contentDescription="@string/comment" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_share_btn"
-                    android:contentDescription="@string/todo" />
+                    android:contentDescription="@string/share" />
 
                 <TextView
                     android:layout_width="wrap_content"

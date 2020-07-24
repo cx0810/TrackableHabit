@@ -19,46 +19,69 @@ import static java.lang.Integer.parseInt;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList<FeedModel> feedModelArrayList;
 
-    FeedAdapter(Context context, ArrayList<FeedModel> feedModelArrayList) {
+    private HabitDBHelper db;
+
+    private ArrayList<String> username_arr, reward_arr, habit_arr, date_arr;
+    private ArrayList<Integer> id_arr, likes_arr, comments_arr;
+
+    private String username, reward, habit;
+    private int id, comments;
+
+    FeedAdapter(Context context, ArrayList<Integer> id_arr,
+                ArrayList<String> username_arr, ArrayList<String> reward_arr,
+                ArrayList<String> habit_arr, ArrayList<String> date_arr,
+                ArrayList<Integer> likes_arr, ArrayList<Integer> comments_arr) {
 
         this.context = context;
-        this.feedModelArrayList = feedModelArrayList;
-
+        this.id_arr = id_arr;
+        this.username_arr = username_arr;
+        this.reward_arr = reward_arr;
+        this.habit_arr = habit_arr;
+        this.date_arr = date_arr;
+        this.likes_arr = likes_arr;
+        this.comments_arr = comments_arr;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_row, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.feed_row, parent, false);
 
         return new MyViewHolder(view);
     }
     
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final FeedModel feedModel = feedModelArrayList.get(position);
 
-        holder.tv_message.setText(feedModel.getMessage());
-        holder.tv_time.setText(feedModel.getTime());
-        holder.tv_likes.setText(String.valueOf(feedModel.getLikes()));
-        String message = feedModel.getComments() + context.getString(R.string.comments);
-        holder.tv_comments.setText(message);
+        id = id_arr.get(position);
+        username = username_arr.get(position);
+        reward = reward_arr.get(position);
+        habit = habit_arr.get(position);
+        comments = comments_arr.get(position);
+
+        String message =  username + " received the " + reward + " award for keeping up with the "
+                + habit + " habit!";
+
+        holder.tv_message.setText(message);
+        holder.tv_time.setText(date_arr.get(position));
+        holder.tv_likes.setText(String.valueOf(likes_arr.get(position)));
+        String commentMessage = comments + context.getString(R.string.comments);
+        holder.tv_comments.setText(commentMessage);
 
         holder.like_btn.setOnClickListener(v -> {
-            int likesCount = parseInt(holder.tv_likes.getText().toString());
-            int newCount = likesCount + 1;
+            int newCount = likes_arr.get(position) + 1;
+            db = new HabitDBHelper(context);
+            db.updateLikes(String.valueOf(id), newCount);
             holder.tv_likes.setText(String.valueOf(newCount));
-//                feedModelArrayList.get(position).setLikes(newCount);
         });
 
     }
 
     @Override
     public int getItemCount() {
-        return feedModelArrayList.size();
+        return id_arr.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

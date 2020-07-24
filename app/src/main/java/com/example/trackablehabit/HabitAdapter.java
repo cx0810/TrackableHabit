@@ -132,9 +132,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 habitDBHelper.updateStats(idString, nameString, countString);
 
                 if (newCount == habit_target.get(position + 1)) {
-                    habitDBHelper.updateStreak(idString, streak + 1);
-
-                    targetReachedAlert(nameString, streak);
+                    int newStreak = streak + 1;
+                    habitDBHelper.updateStreak(idString, newStreak);
+                    targetReachedAlert(nameString, newStreak);
                 }
 
                 habitCount.setText(String.valueOf(newCount));
@@ -177,33 +177,45 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         builder.setMessage("You've reached your target for " + habitName + " today.");
 
         builder.setPositiveButton("Ok", (dialog, which) -> {
-            if ((((streak == 1 || streak == 3) || streak == 7) || streak == 14) || streak == 30) {
-                rewardAlert(habitName, streak);
 
-            }
         });
+
+        if ((((streak == 1 || streak == 3) || streak == 7) || streak == 14) || streak == 30) {
+            giveRewards(habitName, streak);
+        }
 
         builder.show();
     }
 
-    private void rewardAlert(String habitName, int streak) {
+    private void giveRewards(String habitName, int streak) {
+        String rewardName = (streak == 1
+                ? "1 Day"
+                : streak == 3
+                    ? "3 Days"
+                    : streak == 7
+                        ? "1 Week"
+                        : streak == 14
+                            ? "2 Weeks"
+                            : "1 Month");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
-        builder.setTitle("Congratulations!\nYou received a reward.");
-        builder.setMessage("Your streak for " + habitName + " has lasted for "
-                + (streak == 1
-                    ? "1 day."
-                    : streak == 3
-                        ? "3 days."
-                            : streak == 7
-                            ? "1 week."
-                                : streak == 14
-                                ? "2 weeks."
-                                    : "1 month."));
+        // Give the alert dialogue
+        builder.setTitle("Congratulations!");
+        builder.setMessage("You received the " + rewardName + " reward for your " + habitName + " habit.");
+
+        // save data into news database table
+        long timeMillis = System.currentTimeMillis();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, h:mm a");
+        String dateAndTimeString = sdf.format(timeMillis);
+
+        String username = habitDBHelper.getCurrentUsername();
+
+        habitDBHelper.insertNews(username, rewardName, habitName, dateAndTimeString);
 
         builder.setPositiveButton("Ok", (dialog, which) -> {
 //                Intent startIntent = new Intent(mContext, Rewards.class);
-//                startActivity(startIntent);
+//                mContext.startActivity(startIntent);
         });
 
         builder.show();

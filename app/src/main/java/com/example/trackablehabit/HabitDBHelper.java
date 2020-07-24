@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     private Context context;
 
@@ -64,14 +64,24 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 UserEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserEntry.COLUMN_USERNAME + " TEXT NOT NULL, " +
                 UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL, " +
-                UserEntry.COLUMN_LOGGEDIN + " BOOLEAN NOT NULL" + ");";
+                UserEntry.COLUMN_LOGGEDIN + " INTEGER NOT NULL" + ");";
 
+        final String SQL_CREATE_NEWSLIST_TABLE = "CREATE TABLE " +
+                NewsEntry.TABLE_NAME + " (" +
+                NewsEntry._ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NewsEntry.COLUMN_USERNAME + " TEXT NOT NULL, " +
+                NewsEntry.COLUMN_REWARD_NAME + " TEXT NOT NULL, " +
+                NewsEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL, " +
+                NewsEntry.COLUMN_DATE + " TEXT NOT NULL, " +
+                NewsEntry.COLUMN_LIKES + " INTEGER NOT NULL, " +
+                NewsEntry.COLUMN_COMMENTS + " INTEGER NOT NULL" + ");";
 
         db.execSQL(SQL_CREATE_ALARMLIST_TABLE);
         db.execSQL(SQL_CREATE_HABITLIST_TABLE);
         db.execSQL(SQL_CREATE_STATSLIST_TABLE);
         db.execSQL(SQL_CREATE_USERLIST_TABLE);
-      
+        db.execSQL(SQL_CREATE_NEWSLIST_TABLE);
+
     }
 
     @Override
@@ -80,6 +90,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + AlarmReminderEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + StatsEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NewsEntry.TABLE_NAME);
         onCreate(db);
     }
 
@@ -98,21 +109,25 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserEntry.COLUMN_USERNAME, user);
         contentValues.put(UserEntry.COLUMN_PASSWORD, password);
-        contentValues.put(UserEntry.COLUMN_LOGGEDIN, false);
+        contentValues.put(UserEntry.COLUMN_LOGGEDIN, 0);
         return db.insert(UserEntry.TABLE_NAME, null, contentValues);
     }
 
-    boolean checkUser(String username, String password) {
+    int checkUser(String username, String password) {
+        int userID = -1;
         String[] columns = { UserEntry.COLUMN_ID };
         SQLiteDatabase db = getReadableDatabase();
         String selection = UserEntry.COLUMN_USERNAME + "=?" + " and " + UserEntry.COLUMN_PASSWORD + "=?";
         String[] selectionArgs = { username, password };
         Cursor cursor = db.query(UserEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-        int count = cursor.getCount();
+        if (cursor != null && cursor.moveToFirst()) {
+            userID = cursor.getInt(cursor.getColumnIndex("ID"));
+        }
+        assert cursor != null;
         cursor.close();
         db.close();
 
-        return count > 0;
+        return userID;
     }
 
     void insertStats(String date, int habitID, String habitName, int count) {
@@ -123,6 +138,38 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         contentValues.put(StatsEntry.COLUMN_HABIT_NAME, habitName);
         contentValues.put(StatsEntry.COLUMN_COUNT, count);
         habitDatabase.insert(StatsEntry.TABLE_NAME, null, contentValues);
+    }
+
+    void insertNews(String username, String rewardName, String habitName, String date) {
+        SQLiteDatabase habitDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NewsEntry.COLUMN_USERNAME, username);
+        contentValues.put(NewsEntry.COLUMN_REWARD_NAME, rewardName);
+        contentValues.put(NewsEntry.COLUMN_HABIT_NAME, habitName);
+        contentValues.put(NewsEntry.COLUMN_DATE, date);
+        contentValues.put(NewsEntry.COLUMN_LIKES, 0);
+        contentValues.put(NewsEntry.COLUMN_COMMENTS, 0);
+        habitDatabase.insert(NewsEntry.TABLE_NAME, null, contentValues);
+    }
+
+    String getCurrentUsername() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + UserEntry.TABLE_NAME
+                + " WHERE " + UserEntry.COLUMN_LOGGEDIN + " = 1";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        String currentUsername;
+        if (cursor != null && cursor.moveToFirst() ) {
+            currentUsername = cursor.getString(cursor.getColumnIndex("username"));
+        } else {
+            assert cursor != null;
+            currentUsername = cursor.getString(1);
+        }
+        cursor.close();
+
+        return currentUsername;
     }
 
     Cursor getAllHabits() {
@@ -151,6 +198,19 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
+    Cursor getAllNews() {
+        SQLiteDatabase habitDatabase = this.getReadableDatabase();
+        return habitDatabase.query(
+                HabitContract.NewsEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                NewsEntry._ID + " DESC"
+        );
+    }
+
     String queryLatestID() {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -170,6 +230,21 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return habitID;
+    }
+
+    void updateUser(String id, String username, String password, int loggedIn) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(UserEntry.COLUMN_USERNAME, username);
+        contentValues.put(UserEntry.COLUMN_PASSWORD, password);
+        contentValues.put(UserEntry.COLUMN_LOGGEDIN, loggedIn);
+
+        long result = db.update(UserEntry.TABLE_NAME, contentValues, "ID=?", new String[]{id});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void updateData(String id, String name, String count, String target) {
@@ -207,6 +282,19 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         String dateString = sdf.format(date);
 
         long result = db.update(StatsEntry.TABLE_NAME, contentValues, "date = ? AND habitID = ?" , new String[]{dateString, habitID});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    void updateLikes(String id, int likes) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NewsEntry.COLUMN_LIKES, likes);
+
+        long result = db.update(NewsEntry.TABLE_NAME, contentValues, "_id=?", new String[]{id});
         if (result == -1) {
             Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
         } else {

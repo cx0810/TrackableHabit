@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ButtonBarLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +13,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
     EditText mTextUsername;
     EditText mTextPassword;
     Button mButtonLogin;
     TextView mRegister;
     HabitDBHelper db;
+
+    int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +44,13 @@ public class LoginActivity extends AppCompatActivity {
         mButtonLogin.setOnClickListener(v -> {
             String user = mTextUsername.getText().toString().trim();
             String password = mTextPassword.getText().toString().trim();
-            boolean res = db.checkUser(user, password);
-            if (res) {
+            int res = db.checkUser(user, password);
+            if (res > 0) {
+                userID = res;
+
+                // set loggedIn to true/1
+                db.updateUser(String.valueOf(userID), user, password, 1);
+
                 Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
                 Intent homepage = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(homepage);
