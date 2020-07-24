@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import org.w3c.dom.Text;
 
@@ -34,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public SQLiteDatabase habitDatabase;
     public HabitDBHelper habitDBHelper;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         // for the hamburger icon
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,
@@ -77,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HabitFragment()).commit();
-
     }
 
     @Override
@@ -128,4 +131,29 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             };
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.nav_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
+                break;
+            case R.id.nav_password:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PasswordFragment()).commit();
+                break;
+            case R.id.nav_user_manual:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new UserManualFragment()).commit();
+                break;
+            case R.id.nav_logout:
+                // make log in activity a fragment?
+                break;
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
