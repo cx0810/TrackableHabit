@@ -26,14 +26,17 @@ public class ProfileFragment extends Fragment {
         noOfRewards = rootView.findViewById(R.id.number_of_rewards);
         highestStreak = rootView.findViewById(R.id.highest_streak);
 
-//        int highestStreakVal = habitDBHelper.queryHighestStreak();
-//        highestStreak.setText(highestStreakVal);
 
         profileName.setText(habitDBHelper.getCurrentUsername());
-        String rewardsText = HabitDBHelper.noOfRewards + "" ;
+
+        String rewardsText = habitDBHelper.queryNoOfRewards() + "" ;
         noOfRewards.setText(rewardsText);
-        String habitsText = HabitDBHelper.noOfHabitsTracked + "";
+
+        String habitsText = habitDBHelper.queryNoOfHabits() + "";
         noOfHabitsTracked.setText(habitsText);
+
+        String streakText = habitDBHelper.queryHighestStreak() + "" ;
+        highestStreak.setText(streakText);
 
 
         return rootView;

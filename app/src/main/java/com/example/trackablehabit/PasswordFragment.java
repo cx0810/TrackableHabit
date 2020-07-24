@@ -46,6 +46,7 @@ public class PasswordFragment extends Fragment {
                 if (new_password.equals(confirm_password)) {
                     habitDBHelper.updateUser(String.valueOf(userID), username, new_password, 1);
                     Toast.makeText(getActivity(), R.string.sucessfully_updated, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
                 } else {
                     Toast.makeText(getActivity(), R.string.pw_does_not_match, Toast.LENGTH_SHORT).show();
                 }
