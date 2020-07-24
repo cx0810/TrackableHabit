@@ -22,8 +22,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_username"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                app:srcCompat="@drawable/ic_username" />
 
         </RelativeLayout>
 
@@ -39,19 +39,6 @@
             android:textColor="@color/white"
             android:textSize="40sp" />
 
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/todo"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp" />
-
     </RelativeLayout>
 
 
@@ -63,10 +50,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
@@ -75,26 +61,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_habits_tracked"
-                    android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_favorite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_habits_tracked"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/number_of_habits_tracked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/_0"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_marginTop="15dp"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
 
             </LinearLayout>
 
@@ -104,26 +104,39 @@
                 android:layout_marginTop="50dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_number_of_rewards"
-                    android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_flower" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_number_of_rewards"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/number_of_rewards"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/_0"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
                     android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:text="@string/_0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_gravity="center_horizontal"/>
+
 
             </LinearLayout>
 
@@ -133,11 +146,27 @@
                 android:layout_marginTop="50dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/highest_streak_maintained"
-                    android:textSize="13sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/like"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/highest_streak_maintained"
+                        android:textSize="13sp"
+                        app:srcCompat="@drawable/ic_star"
+                        android:textColor="@color/colorPrimaryDark"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/highest_streak"
@@ -145,14 +174,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/_0"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"/>
 
             </LinearLayout>
 
