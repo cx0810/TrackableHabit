@@ -17,10 +17,6 @@ import java.util.ArrayList;
 
 public class HabitDBHelper extends SQLiteOpenHelper {
 
-    static int noOfHabitsTracked = 0;
-    static int noOfRewards = 0;
-
-
     private static final String DATABASE_NAME = "habitlist.db";
     private static final int DATABASE_VERSION = 3;
 
@@ -99,7 +95,6 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     }
 
     void insertData(String name, int target) {
-        noOfHabitsTracked++;
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
@@ -146,7 +141,6 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     }
 
     void insertNews(String username, String rewardName, String habitName, String date) {
-        noOfRewards++;
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NewsEntry.COLUMN_USERNAME, username);
@@ -190,6 +184,25 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitContract.HabitEntry.COLUMN_TIMESTAMP + " DESC"
         );
     }
+
+    int queryNoOfRewards() {
+            String countQuery = "SELECT * FROM " + NewsEntry.TABLE_NAME;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(countQuery, null);
+            int count = cursor.getCount();
+            cursor.close();
+            return count;
+    }
+
+    int queryNoOfHabits() {
+        String countQuery = "SELECT * FROM " + HabitEntry.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
 
 
     Cursor getAllStats() {
@@ -242,20 +255,11 @@ public class HabitDBHelper extends SQLiteOpenHelper {
 
     int queryHighestStreak() {
         SQLiteDatabase db = this.getReadableDatabase();
-
         String query = "SELECT MAX(" + HabitEntry.COLUMN_STREAK + ") FROM " + HabitEntry.TABLE_NAME;
-
         Cursor cursor = db.rawQuery(query, null);
-
-        int highestStreak;
-        if (cursor != null && cursor.moveToFirst() ) {
-            highestStreak = cursor.getInt(cursor.getColumnIndex(HabitEntry.COLUMN_STREAK));
-        } else {
-            assert cursor != null;
-            highestStreak = cursor.getInt(0);
-        }
+        int count = cursor.getCount();
         cursor.close();
-        return highestStreak;
+        return count;
     }
 
     void updateUser(String id, String username, String password, int loggedIn) {
@@ -266,11 +270,6 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         contentValues.put(UserEntry.COLUMN_LOGGEDIN, loggedIn);
 
         long result = db.update(UserEntry.TABLE_NAME, contentValues, "ID=?", new String[]{id});
-        if (result == -1) {
-            Toast.makeText(context, "Failed to update.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Successfully updated!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     void updateUserLogOut(int userID) {
