@@ -135,5 +135,8 @@
     <string name="old_password">\ Old Password</string>
     <string name="new_password">\ New Password</string>
     <string name="confirm">Confirm</string>
+    <string name="sucessfully_updated">Successfully Updated</string>
+    <string name="pw_does_not_match">Password does not match</string>
+    <string name="wrong_pw">Wrong password</string>
 
 </resources>

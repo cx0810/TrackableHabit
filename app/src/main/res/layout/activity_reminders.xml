@@ -311,6 +311,16 @@
 
             </RelativeLayout>
 
+            <Button
+                android:id="@+id/reminder_save"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/save"
+                android:textColor="@color/colorPrimaryDark"/>
+
         </LinearLayout>
 
     </ScrollView>
