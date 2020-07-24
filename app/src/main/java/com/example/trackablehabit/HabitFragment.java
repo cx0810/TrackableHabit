@@ -113,7 +113,7 @@ public class HabitFragment extends Fragment {
         calendar.clear(Calendar.MILLISECOND);
         long currentDay = calendar.getTimeInMillis();
 
-        SharedPreferences settings = Objects.requireNonNull(getActivity()).getSharedPreferences("PREFS", 0);
+        SharedPreferences settings = requireActivity().getSharedPreferences("PREFS", 0);
         long lastDay = settings.getLong("day", 0);
 
         long diffMillis = currentDay - lastDay;

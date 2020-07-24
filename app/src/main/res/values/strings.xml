@@ -138,5 +138,8 @@
     <string name="sucessfully_updated">Successfully Updated</string>
     <string name="pw_does_not_match">Password does not match</string>
     <string name="wrong_pw">Wrong password</string>
+    <string name="total_habits_tracked">Total Number of Habits Tracked</string>
+    <string name="total_number_of_rewards">Total Number of Rewards</string>
+    <string name="highest_streak_maintained">Highest Streak Maintained</string>
 
 </resources>

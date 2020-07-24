@@ -17,6 +17,10 @@ import java.util.ArrayList;
 
 public class HabitDBHelper extends SQLiteOpenHelper {
 
+    static int noOfHabitsTracked = 0;
+    static int noOfRewards = 0;
+
+
     private static final String DATABASE_NAME = "habitlist.db";
     private static final int DATABASE_VERSION = 3;
 
@@ -95,6 +99,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     }
 
     void insertData(String name, int target) {
+        noOfHabitsTracked++;
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
@@ -141,6 +146,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
     }
 
     void insertNews(String username, String rewardName, String habitName, String date) {
+        noOfRewards++;
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NewsEntry.COLUMN_USERNAME, username);
@@ -185,6 +191,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
+
     Cursor getAllStats() {
         SQLiteDatabase habitDatabase = this.getReadableDatabase();
         return habitDatabase.query(
@@ -211,6 +218,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         );
     }
 
+
     String queryLatestID() {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -222,7 +230,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
 
         String habitID;
         if (cursor != null && cursor.moveToFirst() ) {
-            habitID = cursor.getString(cursor.getColumnIndex("_id"));
+            habitID = cursor.getString(cursor.getColumnIndex("_ID"));
         } else {
             assert cursor != null;
             habitID = cursor.getString(0);
@@ -230,6 +238,24 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return habitID;
+    }
+
+    int queryHighestStreak() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT MAX(" + HabitEntry.COLUMN_STREAK + ") FROM " + HabitEntry.TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        int highestStreak;
+        if (cursor != null && cursor.moveToFirst() ) {
+            highestStreak = cursor.getInt(cursor.getColumnIndex(HabitEntry.COLUMN_STREAK));
+        } else {
+            assert cursor != null;
+            highestStreak = cursor.getInt(0);
+        }
+        cursor.close();
+        return highestStreak;
     }
 
     void updateUser(String id, String username, String password, int loggedIn) {
