@@ -243,7 +243,7 @@ public class HabitDBHelper extends SQLiteOpenHelper {
 
         String habitID;
         if (cursor != null && cursor.moveToFirst() ) {
-            habitID = cursor.getString(cursor.getColumnIndex("_ID"));
+            habitID = cursor.getString(cursor.getColumnIndex("_id"));
         } else {
             assert cursor != null;
             habitID = cursor.getString(0);
