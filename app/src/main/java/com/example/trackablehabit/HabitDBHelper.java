@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class HabitDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "habitlist.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private Context context;
 
@@ -36,7 +36,8 @@ public class HabitDBHelper extends SQLiteOpenHelper {
                 HabitEntry.COLUMN_COUNT + " INTEGER, " +
                 HabitEntry.COLUMN_TARGET + " INTEGER NOT NULL, " +
                 HabitEntry.COLUMN_STREAK + " INTEGER, " +
-                HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                HabitEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                HabitEntry.COLUMN_RESET + " TEXT NOT NULL" +
                 ");";
 
         final String SQL_CREATE_ALARMLIST_TABLE =  "CREATE TABLE " +
@@ -94,13 +95,15 @@ public class HabitDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void insertData(String name, int target) {
+    void insertData(String name, int target, String resetEvery) {
         SQLiteDatabase habitDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(HabitEntry.COLUMN_NAME, name);
         contentValues.put(HabitEntry.COLUMN_COUNT, 0);
         contentValues.put(HabitEntry.COLUMN_TARGET, target);
         contentValues.put(HabitEntry.COLUMN_STREAK, 0);
+        contentValues.put(HabitEntry.COLUMN_RESET, resetEvery);
+
         habitDatabase.insert(HabitEntry.TABLE_NAME, null, contentValues);
     }
 
