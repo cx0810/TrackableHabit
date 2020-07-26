@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,7 +176,8 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     private void targetReachedAlert(String habitName, int streak) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
-        builder.setTitle("Great job!");
+        builder.setTitle("Great job!")
+            .setIcon(R.drawable.ic_star);
         builder.setMessage("You've reached your target for " + habitName + " today.");
 
         builder.setPositiveButton("Ok", (dialog, which) -> {
@@ -190,20 +192,31 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     }
 
     private void giveRewards(String habitName, int streak) {
-        String rewardName = (streak == 1
-                ? "1 Day"
-                : streak == 3
-                    ? "3 Days"
-                    : streak == 7
-                        ? "1 Week"
-                        : streak == 14
-                            ? "2 Weeks"
-                            : "1 Month");
+        int rewardIcon;
+        String rewardName;
+
+        if (streak == 1) {
+            rewardName = "1 Day";
+            rewardIcon = R.drawable.full_reward1;
+        } else if (streak == 3) {
+            rewardName = "3 Days";
+            rewardIcon = R.drawable.full_reward2;
+        } else if (streak == 7) {
+            rewardName = "1 Week";
+            rewardIcon = R.drawable.full_reward3;
+        } else if (streak == 14) {
+            rewardName = "2 Weeks";
+            rewardIcon = R.drawable.full_reward4;
+        } else {
+            rewardName = "1 Month";
+            rewardIcon = R.drawable.full_reward5;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         // Give the alert dialogue
-        builder.setTitle("Congratulations!");
+        builder.setTitle("Congratulations!")
+                .setIcon(rewardIcon);
         builder.setMessage("You received the " + rewardName + " reward for your " + habitName + " habit.");
 
         // save data into news database table

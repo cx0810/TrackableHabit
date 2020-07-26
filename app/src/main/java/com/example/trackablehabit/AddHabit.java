@@ -55,18 +55,36 @@ public class AddHabit extends AppCompatActivity {
             String stringTarget = target.getText().toString();
             String resetEvery = resetToZeroEvery.getText().toString();
 
-            habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget), resetEvery);
+            if (stringNameOfHabit.trim().length() <= 0) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Please enter a habit name.");
+                alert.setPositiveButton("Ok",
+                        (dialog, whichButton) -> {});
+                alert.show();
+            }
 
-            long date = System.currentTimeMillis();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
-            String dateString = sdf.format(date);
-            String habitIDString = habitDBHelper.queryLatestID();
-            habitDBHelper.insertStats(dateString, parseInt(habitIDString), stringNameOfHabit, 0);
+            if (stringTarget.trim().length() <= 0) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Please enter a target.");
+                alert.setPositiveButton("Ok",
+                        (dialog, whichButton) -> {});
+                alert.show();
+            }
+
+            if (stringNameOfHabit.trim().length() > 0 && stringTarget.trim().length() > 0) {
+                habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget), resetEvery);
+
+                long date = System.currentTimeMillis();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+                String dateString = sdf.format(date);
+                String habitIDString = habitDBHelper.queryLatestID();
+                habitDBHelper.insertStats(dateString, parseInt(habitIDString), stringNameOfHabit, 0);
 
 //            nameOfHabit.getText().clear();
 
-            Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(startIntent);
+                Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(startIntent);
+            }
         });
     }
 

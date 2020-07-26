@@ -26,7 +26,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
     private ArrayList<Integer> id_arr, likes_arr, comments_arr;
 
     private String username, reward, habit;
-    private int id, comments;
+    private int id;
 
     FeedAdapter(Context context, ArrayList<Integer> id_arr,
                 ArrayList<String> username_arr, ArrayList<String> reward_arr,
@@ -59,7 +59,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         username = username_arr.get(position);
         reward = reward_arr.get(position);
         habit = habit_arr.get(position);
-        comments = comments_arr.get(position);
 
         String message =  username + " received the " + reward + " award for keeping up with the "
                 + habit + " habit!";
@@ -67,11 +66,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
         holder.tv_message.setText(message);
         holder.tv_time.setText(date_arr.get(position));
         holder.tv_likes.setText(String.valueOf(likes_arr.get(position)));
-        String commentMessage = comments + context.getString(R.string.comments);
-        holder.tv_comments.setText(commentMessage);
 
         holder.like_btn.setOnClickListener(v -> {
-            int newCount = likes_arr.get(position) + 1;
+            holder.like_btn.setImageResource(R.drawable.ic_like);
+            int likes = parseInt(holder.tv_likes.getText().toString());
+            int newCount = likes + 1;
             db = new HabitDBHelper(context);
             db.updateLikes(String.valueOf(id), newCount);
             holder.tv_likes.setText(String.valueOf(newCount));
@@ -86,8 +85,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_message, tv_time, tv_likes, tv_comments;
-        TextView like_btn;
+        TextView tv_message, tv_time, tv_likes;
+        ImageView like_btn;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -95,7 +94,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.MyViewHolder> 
             tv_message = itemView.findViewById(R.id.tv_message);
             tv_time = itemView.findViewById(R.id.tv_time);
             tv_likes = itemView.findViewById(R.id.tv_like);
-            tv_comments = itemView.findViewById(R.id.tv_comment);
             like_btn = itemView.findViewById(R.id.like_btn);
         }
     }
