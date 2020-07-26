@@ -53,6 +53,7 @@ public class AddHabit extends AppCompatActivity {
         saveButton.setOnClickListener(v -> {
             String stringNameOfHabit = nameOfHabit.getText().toString();
             String stringTarget = target.getText().toString();
+            String resetEvery = resetToZeroEvery.getText().toString();
 
             if (stringNameOfHabit.trim().length() <= 0) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -71,7 +72,7 @@ public class AddHabit extends AppCompatActivity {
             }
 
             if (stringNameOfHabit.trim().length() > 0 && stringTarget.trim().length() > 0) {
-                habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget));
+                habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget), resetEvery);
 
                 long date = System.currentTimeMillis();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");

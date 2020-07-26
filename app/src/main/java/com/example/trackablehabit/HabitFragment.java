@@ -37,7 +37,7 @@ public class HabitFragment extends Fragment {
     private HabitDBHelper habitDBHelper;
     private HabitAdapter habitAdapter;
 
-    private ArrayList<String> habit_name;
+    private ArrayList<String> habit_name, habit_reset;
     private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
     private FloatingActionButton addHabitFab;
 
@@ -62,12 +62,13 @@ public class HabitFragment extends Fragment {
         habit_count = new ArrayList<>();
         habit_target = new ArrayList<>();
         habit_streak = new ArrayList<>();
+        habit_reset = new ArrayList<>();
 
         storeDataInArrays();
         saveAndResetDailyStats();
 
         RecyclerView recyclerView = rootView.findViewById(R.id.habitRecyclerView);
-        habitAdapter = new HabitAdapter(getActivity(), habit_id, habit_name, habit_count, habit_target, habit_streak);
+        habitAdapter = new HabitAdapter(getActivity(), habit_id, habit_name, habit_count, habit_target, habit_streak, habit_reset);
         recyclerView.setAdapter(habitAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -135,6 +136,7 @@ public class HabitFragment extends Fragment {
                 habit_count.add(cursor.getInt(2));
                 habit_target.add(cursor.getInt(3));
                 habit_streak.add(cursor.getInt(4));
+                habit_reset.add(cursor.getString(6));
             }
         }
     }

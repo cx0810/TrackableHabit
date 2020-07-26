@@ -64,10 +64,12 @@ public class EditHabit extends AppCompatActivity {
             name = getIntent().getStringExtra("name");
             count = getIntent().getStringExtra("count");
             target = getIntent().getStringExtra("target");
+            reset = getIntent().getStringExtra("reset");
 
             // Setting Intent data
             nameOfHabit.setText(name);
             targetView.setText(target);
+            resetToZeroEvery.setText(reset);
         } else {
             Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
         }
