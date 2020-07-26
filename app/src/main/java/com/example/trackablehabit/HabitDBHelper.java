@@ -255,11 +255,19 @@ public class HabitDBHelper extends SQLiteOpenHelper {
 
     int queryHighestStreak() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT MAX(" + HabitEntry.COLUMN_STREAK + ") FROM " + HabitEntry.TABLE_NAME;
+        String query = "SELECT MAX("+ HabitEntry.COLUMN_STREAK + ") FROM " + HabitEntry.TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
+
+        int streak;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            streak = cursor.getInt(0);
+        } else {
+            streak = 0;
+        }
+        assert cursor != null;
         cursor.close();
-        return count;
+        return streak;
     }
 
     void updateUser(String id, String username, String password, int loggedIn) {
