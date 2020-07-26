@@ -128,7 +128,7 @@
     <string name="_11_hrs">11 hrs</string>
     <string name="_18">18</string>
     <string name="_5_comments">5 comments</string>
-    <string name="like">Like</string>
+    <string name="like">Likes</string>
     <string name="comment">Comment</string>
     <string name="share">Share</string>
     <string name="change_password">Change Password</string>
@@ -141,5 +141,11 @@
     <string name="total_habits_tracked">Total Number of Habits Tracked</string>
     <string name="total_number_of_rewards">Total Number of Rewards</string>
     <string name="highest_streak_maintained">Highest Streak Maintained</string>
+    <string name="create_a_habit">Create a habit</string>
+    <string name="delete_a_habit">Delete a habit</string>
+    <string name="edit_a_habit">Edit a habit</string>
+    <string name="tap_on_the_create_button">Tap on the \'create\' button.</string>
+    <string name="tap_on_the_habit_name">Tap on the habit name.</string>
+    <string name="swipe_the_habit_away">Swipe the habit away.</string>
 
 </resources>

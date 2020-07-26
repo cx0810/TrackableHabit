@@ -1,10 +1,15 @@
 package com.example.trackablehabit;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +41,10 @@ public class HabitFragment extends Fragment {
     private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
     private FloatingActionButton addHabitFab;
 
+    @SuppressLint("ResourceAsColor")
+    private ColorDrawable swipeBackground = new ColorDrawable(Color.parseColor("#feb8b3"));
+    private Drawable deleteIcon;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +53,8 @@ public class HabitFragment extends Fragment {
 
         habitDBHelper = new HabitDBHelper(getActivity());
         habitDatabase = habitDBHelper.getReadableDatabase();
+
+        deleteIcon = ContextCompat.getDrawable(requireActivity(), R.drawable.ic_delete);
 
         // Initialise arraylists
         habit_id = new ArrayList<>();
@@ -67,7 +79,40 @@ public class HabitFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                removeItem((String) viewHolder.itemView.getTag());
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("Delete this habit?")
+                        .setIcon(R.drawable.ic_delete_pink);
+                alert.setPositiveButton("Confirm", (dialog, whichButton) -> removeItem((String) viewHolder.itemView.getTag()));
+                alert.setNegativeButton("Cancel", (dialog, whichButton) -> habitAdapter.notifyItemInserted(Integer.parseInt((String) viewHolder.itemView.getTag())));
+                alert.show();
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                    int actionState, boolean isCurrentlyActive) {
+                View itemView = viewHolder.itemView;
+
+                int iconMargin = (itemView.getHeight() - 85 - deleteIcon.getIntrinsicHeight()) / 2;
+
+                if (dX > 0) {
+                    swipeBackground.setBounds(itemView.getLeft(), itemView.getTop(), (int) dX,
+                            itemView.getBottom() - 85);
+                    deleteIcon.setBounds(itemView.getLeft() + iconMargin,
+                            itemView.getTop() + iconMargin,
+                            itemView.getLeft() + iconMargin + deleteIcon.getIntrinsicWidth(),
+                            itemView.getBottom() - 85 - iconMargin);
+                } else {
+                    swipeBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(),
+                            itemView.getRight(), itemView.getBottom() - 85);
+                    deleteIcon.setBounds(itemView.getRight() - iconMargin - deleteIcon.getIntrinsicWidth(),
+                            itemView.getTop() + iconMargin,
+                            itemView.getRight() - iconMargin,
+                            itemView.getBottom() - 85 - iconMargin);
+                }
+                swipeBackground.draw(c);
+                deleteIcon.draw(c);
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(recyclerView);
 

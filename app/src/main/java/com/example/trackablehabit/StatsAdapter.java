@@ -1,6 +1,7 @@
 package com.example.trackablehabit;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsViewHol
         }
 
         BarDataSet dataSet = new BarDataSet(yVals, habitName);
+        dataSet.setColor(Color.parseColor("#a6dfda"));
 
         ArrayList<IBarDataSet> dataSets1 = new ArrayList<>();
         dataSets1.add(dataSet);
