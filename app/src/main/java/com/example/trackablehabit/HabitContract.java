@@ -17,6 +17,7 @@ class HabitContract{
         static final String COLUMN_TARGET = "target";
         static final String COLUMN_STREAK = "streak";
         static final String COLUMN_TIMESTAMP = "timestamp";
+        static final String COLUMN_RESET = "reset";
     }
 
     static final class StatsEntry implements BaseColumns {

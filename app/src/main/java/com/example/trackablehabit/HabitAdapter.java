@@ -28,20 +28,21 @@ import static java.lang.Integer.parseInt;
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> habit_name;
+    private ArrayList<String> habit_name, habit_reset;
     private ArrayList<Integer> habit_id, habit_count, habit_target, habit_streak;
     private OnItemClickListener mListener;
     private HabitDBHelper habitDBHelper;
 
     HabitAdapter(Context context, ArrayList<Integer> habit_id, ArrayList<String> habit_name,
                  ArrayList<Integer> habit_count, ArrayList<Integer> habit_target,
-                 ArrayList<Integer> habit_streak) {
+                 ArrayList<Integer> habit_streak, ArrayList<String> habit_reset) {
         mContext = context;
         this.habit_id = habit_id;
         this.habit_name = habit_name;
         this.habit_count = habit_count;
         this.habit_target = habit_target;
         this.habit_streak = habit_streak;
+        this.habit_reset = habit_reset;
     }
 
     public interface OnItemClickListener {
@@ -115,6 +116,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 startIntent.putExtra("name", String.valueOf(habit_name.get(position + 1)));
                 startIntent.putExtra("count", String.valueOf(habit_count.get(position + 1)));
                 startIntent.putExtra("target", String.valueOf(habit_target.get(position + 1)));
+                startIntent.putExtra("reset", String.valueOf(habit_reset.get(position + 1)));
                 mContext.startActivity(startIntent);
             }
 

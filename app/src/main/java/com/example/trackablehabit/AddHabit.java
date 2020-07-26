@@ -53,8 +53,9 @@ public class AddHabit extends AppCompatActivity {
         saveButton.setOnClickListener(v -> {
             String stringNameOfHabit = nameOfHabit.getText().toString();
             String stringTarget = target.getText().toString();
+            String resetEvery = resetToZeroEvery.getText().toString();
 
-            habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget));
+            habitDBHelper.insertData(stringNameOfHabit, parseInt(stringTarget), resetEvery);
 
             long date = System.currentTimeMillis();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
